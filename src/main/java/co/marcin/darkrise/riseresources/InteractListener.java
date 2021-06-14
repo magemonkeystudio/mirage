@@ -21,7 +21,7 @@ public class InteractListener implements Listener {
             return;
         }
 
-        if (event.getPlayer().hasPermission("riseresources.override")) return;
+        if (event.getPlayer().hasPermission("blockregen.override")) return;
 
         Debugger.log(event.getBlock().getType() + " has been broken.");
         Optional<DataEntry> entry = this.plugin.getData().match(event);

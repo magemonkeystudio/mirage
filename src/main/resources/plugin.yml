@@ -10,3 +10,4 @@ commands:
   resources:
     description: The base command for ProBlockRegen
     usage: /<command> reload
+    aliases: [blockregen, problockregen, pbr]
