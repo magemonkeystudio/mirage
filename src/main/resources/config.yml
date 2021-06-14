@@ -1,0 +1,34 @@
+towny: true
+
+disabled-regions:
+- region1
+
+disabled-worlds:
+- world_nether
+
+disable_crop_growth: true
+#This will disable melon/pumpkin growth
+disable_melon_growth: true
+disable_turtle_egg: false
+#This will disable bamboo and chorus plants
+disable_block_growth: true
+
+entries: []
+#- material: IRON_ORE
+#  break-material: CRACKED_STONE_BRICKS
+#  #delay is in ticks (20=1s)
+#  regen-delay: 600
+#  tool:
+#    allowed:
+#    - npchelmet
+#    message: "You need a helmet to break this!"
+#    damage: 1
+#  chance:
+#    iron_ore: 0.5G
+#    gold_ore: 0.25
+#    diamond_ore: 0.01
+#  command:
+#  - delay: 0
+#    as: CONSOLE
+#    cmd: say {player}
+#  age: 7
