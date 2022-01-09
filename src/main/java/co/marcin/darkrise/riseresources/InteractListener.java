@@ -2,6 +2,7 @@ package co.marcin.darkrise.riseresources;
 
 import me.travja.darkrise.core.Debugger;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -25,9 +26,10 @@ public class InteractListener implements Listener {
 
         Debugger.log(event.getBlock().getType() + " has been broken.");
         Optional<DataEntry> entry = this.plugin.getData().match(event);
-
-
+   
         event.setCancelled(true);
+      
+       
         if (this.plugin.getData().isRegenerating(event.getBlock())) {
 //            event.setCancelled(true);
             Debugger.log("That block is already regenerating");
@@ -62,6 +64,13 @@ public class InteractListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) {
             meta = Bukkit.getItemFactory().getItemMeta(event.getPlayer().getInventory().getItemInMainHand().getType());
+        }
+        if(meta.getEnchants().containsKey(Enchantment.SILK_TOUCH) && entry.get().supportSilktouch()) {
+        	event.getBlock().breakNaturally(item);
+        }
+        
+        if(meta.getEnchants().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && entry.get().supportFortune()) {
+        	event.getBlock().breakNaturally(item);
         }
 
         ((Damageable) meta).setDamage(entry.get().getToolDamage().intValue());

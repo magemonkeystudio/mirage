@@ -32,3 +32,5 @@ entries: []
 #    as: CONSOLE
 #    cmd: say {player}
 #  age: 7
+#  support-fortune: False
+#  support-silktouch: False
