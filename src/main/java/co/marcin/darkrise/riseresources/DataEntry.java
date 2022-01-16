@@ -26,7 +26,7 @@ public class DataEntry {
     private String toolMessage;
     private Integer toolDamage;
     private Integer age;
-    private boolean supportFortune, supportSilktouch;
+    private boolean cancelDrop;
     
     public DataEntry(Map<String, Object> map) {
         Validate.notNull(map);
@@ -39,8 +39,7 @@ public class DataEntry {
 //        }
         this.breakMaterial = Utils.getItemFromString((String) map.get("break-material"));
         Validate.notNull(this.breakMaterial, "Invalid material: " + map.get("break-material"));
-        this.supportFortune = (boolean)map.get("support-fortune");
-        this.supportSilktouch = (boolean)map.get("support-silktouch");
+        this.cancelDrop = (boolean)map.get("cancel-drop");
         this.regenerationDelay = (long) (Integer) map.get("regen-delay");
         if (map.containsKey("tool")) {
             Validate.isTrue(map.get("tool") instanceof Map, "'tool' must be a section.");
@@ -156,13 +155,10 @@ public class DataEntry {
         return this.commands;
     }
 
-    public boolean supportSilktouch() {
-    	return supportSilktouch;
+    public boolean cancelDrop() {
+    	return cancelDrop;
     }
-    
-    public boolean supportFortune() {
-    	return supportFortune;
-    }
+   
     
     public boolean isAgeable() {
         return age != null;

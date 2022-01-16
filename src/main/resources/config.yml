@@ -27,10 +27,10 @@ entries: []
 #    iron_ore: 0.5G
 #    gold_ore: 0.25
 #    diamond_ore: 0.01
+#  #If true, drop the mined/broken block/plant
+#  cancel-drop: true
 #  command:
 #  - delay: 0
 #    as: CONSOLE
 #    cmd: say {player}
 #  age: 7
-#  support-fortune: False
-#  support-silktouch: False

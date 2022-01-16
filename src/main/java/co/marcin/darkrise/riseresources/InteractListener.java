@@ -2,7 +2,6 @@ package co.marcin.darkrise.riseresources;
 
 import me.travja.darkrise.core.Debugger;
 import org.bukkit.Bukkit;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -65,11 +64,7 @@ public class InteractListener implements Listener {
         if (meta == null) {
             meta = Bukkit.getItemFactory().getItemMeta(event.getPlayer().getInventory().getItemInMainHand().getType());
         }
-        if(meta.getEnchants().containsKey(Enchantment.SILK_TOUCH) && entry.get().supportSilktouch()) {
-        	event.getBlock().breakNaturally(item);
-        }
-        
-        if(meta.getEnchants().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && entry.get().supportFortune()) {
+        if(entry.get().cancelDrop()) {
         	event.getBlock().breakNaturally(item);
         }
 
