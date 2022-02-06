@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +22,7 @@ public class DataEntry {
     private final ItemStack breakMaterial;
     private final Long regenerationDelay;
     private final Collection<DarkRiseItem> tools = new HashSet();
+    private final Collection<Material> vanillaTools = new HashSet();
     private final Map<ItemStack, Double> chance = new HashMap();
     private final List<DataEntry.Command> commands = new ArrayList();
     private String toolMessage;
@@ -46,8 +48,16 @@ public class DataEntry {
             Map<String, Object> tools = (Map) map.get("tool");
             if (tools.containsKey("allowed")) {
                 if (tools.get("allowed") instanceof String) {
-                    DarkRiseItem item = DarkRiseEconomy.getItemsRegistry().getItemById((String) tools.get("allowed"));
-                    Validate.notNull(item, "Invalid item: " + tools.get("allowed"));
+                    String toolString = (String) tools.get("allowed");
+                    DarkRiseItem item;
+                    if(toolString.startsWith("VANILLA_")){
+                        Material material = Material.getMaterial(toolString.substring("VANILLA_".length()));
+                        Validate.notNull(material, "Invalid vanilla material: " + toolString);
+                        item = DarkRiseEconomy.getItemsRegistry().getVanillaItemByStack(new ItemStack(material));
+                    }else {
+                        item = DarkRiseEconomy.getItemsRegistry().getItemById(toolString);
+                    }
+                    Validate.notNull(item, "Invalid item: " + toolString);
                     this.tools.add(item);
                 } else {
                     if (!(tools.get("allowed") instanceof List)) {
@@ -58,7 +68,14 @@ public class DataEntry {
 
                     while (var3.hasNext()) {
                         String toolString = (String) var3.next();
-                        DarkRiseItem item = DarkRiseEconomy.getItemsRegistry().getItemById(toolString);
+                        DarkRiseItem item;
+                        if(toolString.startsWith("VANILLA_")){
+                            Material material = Material.getMaterial(toolString.substring("VANILLA_".length()));
+                            Validate.notNull(material, "Invalid vanilla material: " + toolString);
+                            item = DarkRiseEconomy.getItemsRegistry().getVanillaItemByStack(new ItemStack(material));
+                        }else {
+                            item = DarkRiseEconomy.getItemsRegistry().getItemById(toolString);
+                        }
                         Validate.notNull(item, "Invalid item: " + toolString);
                         this.tools.add(item);
                     }
