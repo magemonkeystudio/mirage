@@ -17,7 +17,9 @@ public class InteractListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (this.plugin.getDisabledWorlds().contains(event.getBlock().getWorld().getName())) {
+
+        boolean matchFound = this.plugin.getDisabledWorlds().contains(event.getBlock().getWorld().getName());
+        if ((this.plugin.areWorldsBlacklisted()) ? matchFound : !matchFound) {
             return;
         }
 
@@ -55,7 +57,6 @@ public class InteractListener implements Listener {
 
         if (!entry.get().isUsableTool(event.getPlayer().getInventory().getItemInMainHand())) {
             event.getPlayer().sendMessage(entry.get().getToolMessage());
-
             return;
         }
         Debugger.log("We're using the correct tool.");

@@ -1,10 +1,16 @@
 towny: true
 
 disabled-regions:
-- region1
+  # If set to true, block regen will only work in these regions
+  whitelist: false
+  list:
+    - region1
 
 disabled-worlds:
-- world_nether
+  # If set to true, block regen will only work in these worlds
+  whitelist: false
+  list:
+    - world_nether
 
 disable_crop_growth: true
 #This will disable melon/pumpkin growth

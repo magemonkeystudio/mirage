@@ -29,12 +29,22 @@ public class RiseResourcesPlugin extends JavaPlugin {
         return this.disabledRegions;
     }
 
+    public boolean areRegionsBlacklisted(){
+        return regionsBlacklisted;
+    }
+
+    private boolean regionsBlacklisted;
     private boolean isWorldGuardEnabled;
     private final List<String> disabledWorlds = new ArrayList<>();
+    private boolean worldsBlacklisted;
     private boolean isTownyHookEnabled;
 
     public List<String> getDisabledWorlds() {
         return this.disabledWorlds;
+    }
+
+    public boolean areWorldsBlacklisted(){
+        return worldsBlacklisted;
     }
 
     public boolean isWorldGuardEnabled() {
@@ -69,13 +79,16 @@ public class RiseResourcesPlugin extends JavaPlugin {
         }
 
 
-        if (getConfig().contains("disabled-regions")) {
-            this.disabledRegions.addAll(getConfig().getStringList("disabled-regions"));
+        regionsBlacklisted = true;
+        if (getConfig().contains("disabled-regions.list")) {
+            this.disabledRegions.addAll(getConfig().getStringList("disabled-regions.list"));
+            this.regionsBlacklisted = !getConfig().getBoolean("disabled-regions.whitelist", false);
         }
 
-
-        if (getConfig().contains("disabled-worlds")) {
-            this.disabledWorlds.addAll(getConfig().getStringList("disabled-worlds"));
+        worldsBlacklisted = true;
+        if (getConfig().contains("disabled-worlds.list")) {
+            this.disabledWorlds.addAll(getConfig().getStringList("disabled-worlds.list"));
+            this.worldsBlacklisted = !getConfig().getBoolean("disabled-worlds.whitelist", false);
         }
 
 
@@ -103,13 +116,20 @@ public class RiseResourcesPlugin extends JavaPlugin {
     public void reloadConfigs() {
         reloadConfig();
         getData().load(getConfig());
-        if (getConfig().contains("disabled-regions")) {
-            this.disabledRegions.addAll(getConfig().getStringList("disabled-regions"));
+        disabledRegions.clear();
+        regionsBlacklisted = true;
+        if (getConfig().contains("disabled-regions.list")) {
+
+            this.disabledRegions.addAll(getConfig().getStringList("disabled-regions.list"));
+            this.regionsBlacklisted = !getConfig().getBoolean("disabled-regions.whitelist", false);
         }
 
+        disabledWorlds.clear();
+        worldsBlacklisted = true;
+        if (getConfig().contains("disabled-worlds.list")) {
+            this.disabledWorlds.addAll(getConfig().getStringList("disabled-worlds.list"));
+            this.worldsBlacklisted = !getConfig().getBoolean("disabled-worlds.whitelist", false);
 
-        if (getConfig().contains("disabled-worlds")) {
-            this.disabledWorlds.addAll(getConfig().getStringList("disabled-worlds"));
         }
     }
 }
