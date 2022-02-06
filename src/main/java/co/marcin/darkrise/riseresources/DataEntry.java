@@ -22,7 +22,6 @@ public class DataEntry {
     private final ItemStack breakMaterial;
     private final Long regenerationDelay;
     private final Collection<DarkRiseItem> tools = new HashSet();
-    private final Collection<Material> vanillaTools = new HashSet();
     private final Map<ItemStack, Double> chance = new HashMap();
     private final List<DataEntry.Command> commands = new ArrayList();
     private String toolMessage;
