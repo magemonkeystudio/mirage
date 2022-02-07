@@ -38,6 +38,7 @@ public class RiseResourcesPlugin extends JavaPlugin {
     private final List<String> disabledWorlds = new ArrayList<>();
     private boolean worldsBlacklisted;
     private boolean isTownyHookEnabled;
+    private boolean isFactionsUUIDEnabled;
 
     public List<String> getDisabledWorlds() {
         return this.disabledWorlds;
@@ -53,6 +54,10 @@ public class RiseResourcesPlugin extends JavaPlugin {
 
     public boolean isTownyHookEnabled() {
         return this.isTownyHookEnabled;
+    }
+
+    public boolean isFactionsUUIDEnabled(){
+        return this.isFactionsUUIDEnabled;
     }
 
     @Override
@@ -72,6 +77,7 @@ public class RiseResourcesPlugin extends JavaPlugin {
 
         this.isWorldGuardEnabled = (getServer().getPluginManager().getPlugin("WorldGuard") != null);
         this.isTownyHookEnabled = (getConfig().getBoolean("towny") && getServer().getPluginManager().getPlugin("Towny") != null);
+        this.isFactionsUUIDEnabled = (getConfig().getBoolean("factionsuuid") && getServer().getPluginManager().getPlugin("Factions") != null);
         try {
             getData().loadRegenerationEntries();
         } catch (IOException e) {

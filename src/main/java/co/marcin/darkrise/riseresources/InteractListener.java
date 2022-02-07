@@ -53,6 +53,11 @@ public class InteractListener implements Listener {
             return;
         }
 
+        if(this.plugin.isFactionsUUIDEnabled() && FactionsUUIDHook.isClaimed(event.getBlock().getLocation())){
+            Debugger.log("This is in a FactionsUUID claimed chunk.");
+            return;
+        }
+
         Debugger.log("This is a ProBlockRegen resource.");
 
         if (!entry.get().isUsableTool(event.getPlayer().getInventory().getItemInMainHand())) {
