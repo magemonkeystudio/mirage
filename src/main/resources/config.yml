@@ -1,4 +1,5 @@
 towny: true
+factionsuuid: true
 
 disabled-regions:
   # If set to true, block regen will only work in these regions
