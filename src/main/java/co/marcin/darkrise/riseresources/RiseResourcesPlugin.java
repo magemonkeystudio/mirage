@@ -1,5 +1,6 @@
 package co.marcin.darkrise.riseresources;
 
+import me.angeschossen.lands.api.integration.LandsIntegration;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +40,7 @@ public class RiseResourcesPlugin extends JavaPlugin {
     private boolean worldsBlacklisted;
     private boolean isTownyHookEnabled;
     private boolean isFactionsUUIDEnabled;
+    private LandsIntegration landsIntegration;
 
     public List<String> getDisabledWorlds() {
         return this.disabledWorlds;
@@ -60,6 +62,10 @@ public class RiseResourcesPlugin extends JavaPlugin {
         return this.isFactionsUUIDEnabled;
     }
 
+    public LandsIntegration getLandsIntegration(){
+        return landsIntegration;
+    }
+
     @Override
     public void onEnable() {
         instance = this;
@@ -78,6 +84,12 @@ public class RiseResourcesPlugin extends JavaPlugin {
         this.isWorldGuardEnabled = (getServer().getPluginManager().getPlugin("WorldGuard") != null);
         this.isTownyHookEnabled = (getConfig().getBoolean("towny") && getServer().getPluginManager().getPlugin("Towny") != null);
         this.isFactionsUUIDEnabled = (getConfig().getBoolean("factionsuuid") && getServer().getPluginManager().getPlugin("Factions") != null);
+
+        if(getConfig().getBoolean("lands") && getServer().getPluginManager().getPlugin("Lands") != null){
+            this.landsIntegration = new LandsIntegration(this);
+        }else{
+            this.landsIntegration = null;
+        }
         try {
             getData().loadRegenerationEntries();
         } catch (IOException e) {
