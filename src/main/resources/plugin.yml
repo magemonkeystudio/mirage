@@ -1,6 +1,6 @@
 name: ProBlockRegen
 main: co.marcin.darkrise.riseresources.RiseResourcesPlugin
-version: 1.0.1-SNAPSHOT
+version: ${project.version}
 authors: [Travja, GoFlish]
 api-version: 1.13
 softdepend:
