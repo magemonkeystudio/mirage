@@ -12,7 +12,7 @@
 
     <groupId>co.marcin.darkrise</groupId>
     <artifactId>ProBlockRegen</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2-${maven.build.timestamp}</version>
 
     <properties>
         <maven.build.timestamp.format>wwuHHmm</maven.build.timestamp.format>
@@ -78,7 +78,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}-${project.version}-${maven.build.timestamp}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
