@@ -2,6 +2,7 @@ package co.marcin.darkrise.riseresources;
 
 import com.google.common.collect.Iterators;
 import com.gotofinal.darkrise.economy.DarkRiseEconomy;
+import io.th0rgal.oraxen.api.OraxenItems;
 import me.travja.darkrise.core.item.DarkRiseItem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 public class DataEntry {
     private static final String PROMCUTILITIES_KEY = "PROMCU_";
+    private static final String ORAXEN_KEY = "ORAXEN_";
     
     private final ItemStack material;
     private final ItemStack breakMaterial;
@@ -69,6 +71,16 @@ public class DataEntry {
                             continue;
                         }
                         this.tools.add(toolString);
+                    } else if (toolString.startsWith(ORAXEN_KEY)) {
+                        if (!Bukkit.getPluginManager().isPluginEnabled("Oraxen")){
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring allowed tool \""+toolString+"\", Oraxen is not enabled");
+                            continue;
+                        }
+                        if (OraxenItems.getItemById(toolString.substring(ORAXEN_KEY.length())) == null) {
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown Oraxen tool \""+toolString+'"');
+                            continue;
+                        }
+                        this.tools.add(toolString);
                     } else {
                         try {
                             this.tools.add(Material.valueOf(toolString
@@ -115,6 +127,9 @@ public class DataEntry {
             if (toolString.startsWith(PROMCUTILITIES_KEY)) {
                 DarkRiseItem riseItem = DarkRiseEconomy.getItemsRegistry().getItemByStack(itemStack);
                 if (riseItem != null && riseItem.getId().equals(toolString.substring(PROMCUTILITIES_KEY.length()))) {return true;}
+            } else if (toolString.startsWith(ORAXEN_KEY)) {
+                String itemId = OraxenItems.getIdByItem(itemStack);
+                if (itemId != null && itemId.equals(toolString.substring(ORAXEN_KEY.length()))) {return true;}
             } else {
                 if (itemStack.getType().name().equalsIgnoreCase(toolString)) {return true;}
             }

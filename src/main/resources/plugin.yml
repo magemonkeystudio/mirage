@@ -6,6 +6,7 @@ api-version: 1.13
 softdepend:
 - WorldGuard
 - ProMCUtilities
+- Oraxen
 commands:
   resources:
     description: The base command for ProBlockRegen
