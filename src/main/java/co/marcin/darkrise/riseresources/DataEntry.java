@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -26,7 +27,7 @@ public class DataEntry {
     private final Map<ItemStack, Double> chance = new HashMap();
     private final List<DataEntry.Command> commands = new ArrayList();
     private String toolMessage;
-    private Integer toolDamage;
+    private int toolDamage = 0;
     private Integer age;
     private boolean cancelDrop;
     
@@ -161,11 +162,12 @@ public class DataEntry {
         return Collections.unmodifiableCollection(this.tools);
     }
 
+    @Nullable
     public String getToolMessage() {
         return this.toolMessage;
     }
 
-    public Integer getToolDamage() {
+    public int getToolDamage() {
         return this.toolDamage;
     }
 

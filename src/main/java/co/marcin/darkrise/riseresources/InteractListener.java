@@ -65,7 +65,8 @@ public class InteractListener implements Listener {
         RiseResourcesPlugin.getInstance().debug("This is a ProBlockRegen resource.");
 
         if (!entry.get().isUsableTool(event.getPlayer().getInventory().getItemInMainHand())) {
-            event.getPlayer().sendMessage(entry.get().getToolMessage());
+            String toolMessage = entry.get().getToolMessage();
+            if (toolMessage != null) {event.getPlayer().sendMessage(toolMessage);}
             return;
         }
         RiseResourcesPlugin.getInstance().debug("We're using the correct tool.");
@@ -78,7 +79,7 @@ public class InteractListener implements Listener {
         	event.getBlock().breakNaturally(item);
         }
 
-        ((Damageable) meta).setDamage(entry.get().getToolDamage().intValue());
+        ((Damageable) meta).setDamage(entry.get().getToolDamage());
         item.setItemMeta(meta);
 //        item.setDurability((short) entry.get().getToolDamage().intValue());
         event.getPlayer().getInventory().setItemInMainHand(item);
