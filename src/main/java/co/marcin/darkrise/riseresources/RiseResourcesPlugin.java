@@ -42,6 +42,12 @@ public class RiseResourcesPlugin extends JavaPlugin {
     private boolean isFactionsUUIDEnabled;
     private LandsIntegration landsIntegration;
 
+    private boolean debug = false;
+
+    public void debug(String message) {
+        if (debug) {this.getLogger().info(message);}
+    }
+
     public List<String> getDisabledWorlds() {
         return this.disabledWorlds;
     }
@@ -96,6 +102,7 @@ public class RiseResourcesPlugin extends JavaPlugin {
             e.printStackTrace();
         }
 
+        this.debug = getConfig().getBoolean("debug", false);
 
         regionsBlacklisted = true;
         if (getConfig().contains("disabled-regions.list")) {

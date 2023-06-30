@@ -1,6 +1,5 @@
 package co.marcin.darkrise.riseresources;
 
-import me.travja.darkrise.core.Debugger;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -76,22 +75,22 @@ public class Data {
 
     public Optional<DataEntry> match(ItemStack material) {
         for (DataEntry entry : this.entries) {
-            Debugger.log("Comparing broken " + material.getType() + ":" + material.getDurability() + " with " + entry.getMaterial().getType() + ":" + entry.getMaterial().getDurability());
+            RiseResourcesPlugin.getInstance().debug("Comparing broken " + material.getType() + ":" + material.getDurability() + " with " + entry.getMaterial().getType() + ":" + entry.getMaterial().getDurability());
             if (entry.getMaterial().getType() != material.getType() || entry.getMaterial().getDurability() != material.getDurability()) {
-                Debugger.log("Not a match.");
+                RiseResourcesPlugin.getInstance().debug("Not a match.");
                 continue;
             }
 
-            Debugger.log("We have a match.");
+            RiseResourcesPlugin.getInstance().debug("We have a match.");
             return Optional.of(entry);
         }
 
-        Debugger.log("No matches found.");
+        RiseResourcesPlugin.getInstance().debug("No matches found.");
         return Optional.empty();
     }
 
     public Optional<DataEntry> match(BlockBreakEvent event) {
-        Debugger.log("Attempting to find a match for " + event.getBlock().getType() + " with data value of " + event.getBlock().getData());
+        RiseResourcesPlugin.getInstance().debug("Attempting to find a match for " + event.getBlock().getType() + " with data value of " + event.getBlock().getData());
         return match(new ItemStack(event.getBlock().getType(), 1, event.getBlock().getData()));
     }
 

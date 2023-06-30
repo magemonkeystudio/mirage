@@ -2,7 +2,6 @@ package co.marcin.darkrise.riseresources;
 
 import com.google.common.collect.Iterators;
 import com.gotofinal.darkrise.economy.DarkRiseEconomy;
-import me.travja.darkrise.core.Debugger;
 import me.travja.darkrise.core.item.DarkRiseItem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -18,10 +17,12 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class DataEntry {
+    private static final String PROMCUTILITIES_KEY = "PROMCU_";
+    
     private final ItemStack material;
     private final ItemStack breakMaterial;
     private final Long regenerationDelay;
-    private final Collection<DarkRiseItem> tools = new HashSet();
+    private final Set<String> tools = new HashSet<>();
     private final Map<ItemStack, Double> chance = new HashMap();
     private final List<DataEntry.Command> commands = new ArrayList();
     private String toolMessage;
@@ -46,37 +47,38 @@ public class DataEntry {
             Validate.isTrue(map.get("tool") instanceof Map, "'tool' must be a section.");
             Map<String, Object> tools = (Map) map.get("tool");
             if (tools.containsKey("allowed")) {
-                if (tools.get("allowed") instanceof String) {
-                    String toolString = (String) tools.get("allowed");
-                    DarkRiseItem item;
-                    if(toolString.startsWith("VANILLA_")){
-                        Material material = Material.getMaterial(toolString.substring("VANILLA_".length()));
-                        Validate.notNull(material, "Invalid vanilla material: " + toolString);
-                        item = DarkRiseEconomy.getItemsRegistry().getVanillaItemByStack(new ItemStack(material));
-                    }else {
-                        item = DarkRiseEconomy.getItemsRegistry().getItemById(toolString);
-                    }
-                    Validate.notNull(item, "Invalid item: " + toolString);
-                    this.tools.add(item);
+                List<String> stringList;
+                Object allowedObject = tools.get("allowed");
+                if (allowedObject instanceof String) {
+                    stringList = new ArrayList<>();
+                    stringList.add((String) allowedObject);
                 } else {
-                    if (!(tools.get("allowed") instanceof List)) {
-                        throw new IllegalArgumentException("Invalid data type.");
-                    }
+                    if (!(allowedObject instanceof List)) {throw new IllegalArgumentException("Invalid data type.");}
+                    stringList = (List<String>) allowedObject;
+                }
 
-                    Iterator var3 = ((List) tools.get("allowed")).iterator();
-
-                    while (var3.hasNext()) {
-                        String toolString = (String) var3.next();
-                        DarkRiseItem item;
-                        if(toolString.startsWith("VANILLA_")){
-                            Material material = Material.getMaterial(toolString.substring("VANILLA_".length()));
-                            Validate.notNull(material, "Invalid vanilla material: " + toolString);
-                            item = DarkRiseEconomy.getItemsRegistry().getVanillaItemByStack(new ItemStack(material));
-                        }else {
-                            item = DarkRiseEconomy.getItemsRegistry().getItemById(toolString);
+                for (String toolString : stringList) {
+                    if (toolString.startsWith(PROMCUTILITIES_KEY)) {
+                        if (!Bukkit.getPluginManager().isPluginEnabled("ProMCUtilities")){
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring allowed tool \""+toolString+"\", ProMCUtilities is not enabled");
+                            continue;
                         }
-                        Validate.notNull(item, "Invalid item: " + toolString);
-                        this.tools.add(item);
+                        if (DarkRiseEconomy.getItemsRegistry().getItemById(toolString.substring(PROMCUTILITIES_KEY.length())) == null) {
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown ProMCUtilities tool \""+toolString+'"');
+                            continue;
+                        }
+                        this.tools.add(toolString);
+                    } else {
+                        try {
+                            this.tools.add(Material.valueOf(toolString
+                                    .trim()
+                                    .toUpperCase()
+                                    .replace(' ', '_')
+                                    .replace('-', '_')).name());
+
+                        } catch (IllegalArgumentException e) {
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown material tool \""+toolString+'"');
+                        }
                     }
                 }
             }
@@ -90,7 +92,7 @@ public class DataEntry {
         this.chance.putAll(((Map<String, Object>) map.get("chance")).entrySet().stream().collect(Collectors.toMap(e -> {
             ItemStack m = Utils.getItemFromString(e.getKey().toUpperCase());
             Validate.notNull(m, "Invalid material: " + e.getKey());
-            Debugger.log("Added chance \"" + e.getKey().toUpperCase() + "\"");
+            RiseResourcesPlugin.getInstance().debug("Added chance \"" + e.getKey().toUpperCase() + "\"");
             return m;
         }, e -> (Double) e.getValue())));
         if (map.containsKey("command")) {
@@ -107,12 +109,16 @@ public class DataEntry {
     }
 
     public boolean isUsableTool(ItemStack itemStack) {
-        if (this.getTools().isEmpty()) {
-            return true;
-        } else {
-            DarkRiseItem riseItem = DarkRiseEconomy.getItemsRegistry().getItemByStack(itemStack);
-            return riseItem != null && this.getTools().stream().anyMatch((item) -> item.equals(riseItem));
+        if (this.getTools().isEmpty()) {return true;}
+        for (String toolString : this.tools) {
+            if (toolString.startsWith(PROMCUTILITIES_KEY)) {
+                DarkRiseItem riseItem = DarkRiseEconomy.getItemsRegistry().getItemByStack(itemStack);
+                if (riseItem != null && riseItem.getId().equals(toolString.substring(PROMCUTILITIES_KEY.length()))) {return true;}
+            } else {
+                if (itemStack.getType().name().equalsIgnoreCase(toolString)) {return true;}
+            }
         }
+        return false;
     }
 
     public void executeCommands(Player player) {
@@ -151,8 +157,8 @@ public class DataEntry {
         return this.regenerationDelay;
     }
 
-    public Collection<DarkRiseItem> getTools() {
-        return this.tools;
+    public Collection<String> getTools() {
+        return Collections.unmodifiableCollection(this.tools);
     }
 
     public String getToolMessage() {

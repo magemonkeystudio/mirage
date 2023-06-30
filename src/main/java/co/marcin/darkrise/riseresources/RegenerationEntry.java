@@ -1,6 +1,5 @@
 package co.marcin.darkrise.riseresources;
 
-import me.travja.darkrise.core.Debugger;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.data.Ageable;
@@ -91,7 +90,7 @@ public class RegenerationEntry implements ConfigurationSerializable {
         this.location.getBlock().getState().setRawData((byte) chc.getDurability());
         this.location.getBlock().getState().update();
         if (entry.get().isAgeable() && this.location.getBlock().getBlockData() instanceof Ageable) {
-            Debugger.log("Setting block's age to " + entry.get().getAge());
+            RiseResourcesPlugin.getInstance().debug("Setting block's age to " + entry.get().getAge());
             Ageable ageable = ((Ageable) this.location.getBlock().getBlockData());
             ageable.setAge(entry.get().getAge());
             this.location.getBlock().setBlockData(ageable);

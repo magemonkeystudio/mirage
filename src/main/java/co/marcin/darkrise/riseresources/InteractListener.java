@@ -1,6 +1,5 @@
 package co.marcin.darkrise.riseresources;
 
-import me.travja.darkrise.core.Debugger;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +24,7 @@ public class InteractListener implements Listener {
 
         if (event.getPlayer().hasPermission("blockregen.override")) return;
 
-        Debugger.log(event.getBlock().getType() + " has been broken.");
+        RiseResourcesPlugin.getInstance().debug(event.getBlock().getType() + " has been broken.");
         Optional<DataEntry> entry = this.plugin.getData().match(event);
    
         event.setCancelled(true);
@@ -33,43 +32,43 @@ public class InteractListener implements Listener {
        
         if (this.plugin.getData().isRegenerating(event.getBlock())) {
 //            event.setCancelled(true);
-            Debugger.log("That block is already regenerating");
+            RiseResourcesPlugin.getInstance().debug("That block is already regenerating");
             return;
         }
         if (!entry.isPresent()) {
-            Debugger.log("Entry is not present.");
+            RiseResourcesPlugin.getInstance().debug("Entry is not present.");
             return;
         }
 
 
         if (this.plugin.isWorldGuardEnabled() && WorldGuardHook.isRegionDisabledAt(event.getBlock().getLocation())) {
-            Debugger.log("This is in a WG disabled region.");
+            RiseResourcesPlugin.getInstance().debug("This is in a WG disabled region.");
             return;
         }
 
 
         if (this.plugin.isTownyHookEnabled() && TownyHook.isClaimed(event.getBlock().getLocation())) {
-            Debugger.log("This is in a Towny claimed chunk.");
+            RiseResourcesPlugin.getInstance().debug("This is in a Towny claimed chunk.");
             return;
         }
 
         if(this.plugin.isFactionsUUIDEnabled() && FactionsUUIDHook.isClaimed(event.getBlock().getLocation())){
-            Debugger.log("This is in a FactionsUUID claimed chunk.");
+            RiseResourcesPlugin.getInstance().debug("This is in a FactionsUUID claimed chunk.");
             return;
         }
 
         if(this.plugin.getLandsIntegration() != null && LandsHook.isClaimed(event.getBlock().getLocation())){
-            Debugger.log("This is a Lands-Area");
+            RiseResourcesPlugin.getInstance().debug("This is a Lands-Area");
             return;
         }
 
-        Debugger.log("This is a ProBlockRegen resource.");
+        RiseResourcesPlugin.getInstance().debug("This is a ProBlockRegen resource.");
 
         if (!entry.get().isUsableTool(event.getPlayer().getInventory().getItemInMainHand())) {
             event.getPlayer().sendMessage(entry.get().getToolMessage());
             return;
         }
-        Debugger.log("We're using the correct tool.");
+        RiseResourcesPlugin.getInstance().debug("We're using the correct tool.");
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
         if (meta == null) {
@@ -83,14 +82,14 @@ public class InteractListener implements Listener {
         item.setItemMeta(meta);
 //        item.setDurability((short) entry.get().getToolDamage().intValue());
         event.getPlayer().getInventory().setItemInMainHand(item);
-        Debugger.log("Tool has been damaged and applied. Executing any commands.");
+        RiseResourcesPlugin.getInstance().debug("Tool has been damaged and applied. Executing any commands.");
 
         entry.get().executeCommands(event.getPlayer());
-        Debugger.log("Updating the block to the break material.");
+        RiseResourcesPlugin.getInstance().debug("Updating the block to the break material.");
         event.getBlock().setType(entry.get().getBreakMaterial().getType());
 //        event.getBlock().setData((byte) entry.get().getBreakMaterial().getDurability());
         event.getBlock().getState().update();
-        Debugger.log("Block broken and updated. Starting regeneration task.");
+        RiseResourcesPlugin.getInstance().debug("Block broken and updated. Starting regeneration task.");
         this.plugin.getData().addRegenerationEntry(event.getBlock(), entry.get(), true);
 
         RiseResourcesPlugin.getInstance().getLogger().info(String.format("Resource broken (%s) at (%d, %d, %d) by %s",

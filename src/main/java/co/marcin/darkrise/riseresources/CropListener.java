@@ -1,6 +1,5 @@
 package co.marcin.darkrise.riseresources;
 
-import me.travja.darkrise.core.Debugger;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,15 +24,15 @@ public class CropListener implements Listener {
         Material block = event.getNewState().getType();
 
         if (block == TURTLE_EGG && Data.restrictTurtleEgg) {
-            Debugger.log("Cancelled turtle egg");
+            RiseResourcesPlugin.getInstance().debug("Cancelled turtle egg");
             event.setCancelled(true);
         }
         if (crops.contains(block) && Data.restrictCropGrowth) {
-            Debugger.log("Cancelled crop growth");
+            RiseResourcesPlugin.getInstance().debug("Cancelled crop growth");
             event.setCancelled(true);
         }
         if (blocks.contains(block) && Data.restrictMelonGrowth) {
-            Debugger.log("Cancelled melon/pumpkin/sugarcane/cactus growth");
+            RiseResourcesPlugin.getInstance().debug("Cancelled melon/pumpkin/sugarcane/cactus growth");
             event.setCancelled(true);
         }
 
@@ -43,7 +42,7 @@ public class CropListener implements Listener {
     public void spread(BlockSpreadEvent event) {
         Material mat = event.getNewState().getType();
         if ((mat == Material.BAMBOO || mat == CHORUS_PLANT/*mat == DOUBLE_PLANT*/) && Data.restrictBlockGrowth) {
-            Debugger.log("Cancelled bamboo or chorus plant growth");
+            RiseResourcesPlugin.getInstance().debug("Cancelled bamboo or chorus plant growth");
             event.setCancelled(true);
         }
     }
