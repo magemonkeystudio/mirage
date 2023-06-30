@@ -8,6 +8,7 @@ softdepend:
 - ProMCUtilities
 - Oraxen
 - ItemsAdder
+- ProRPGItems
 commands:
   resources:
     description: The base command for ProBlockRegen

@@ -4,6 +4,7 @@ import com.google.common.collect.Iterators;
 import com.gotofinal.darkrise.economy.DarkRiseEconomy;
 import dev.lone.itemsadder.api.CustomStack;
 import io.th0rgal.oraxen.api.OraxenItems;
+import mc.promcteam.engine.modules.IModule;
 import me.travja.darkrise.core.item.DarkRiseItem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -14,6 +15,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import su.nightexpress.quantumrpg.QuantumRPG;
+import su.nightexpress.quantumrpg.modules.ModuleItem;
+import su.nightexpress.quantumrpg.modules.api.QModuleDrop;
+import su.nightexpress.quantumrpg.stats.items.ItemStats;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -23,6 +28,7 @@ public class DataEntry {
     private static final String PROMCUTILITIES_KEY = "PROMCU_";
     private static final String ORAXEN_KEY = "ORAXEN_";
     private static final String ITEMSADDER_KEY = "ITEMSADDER_";
+    private static final String PRORPGITEMS_KEY = "PRORPGITEMS_";
     
     private final ItemStack material;
     private final ItemStack breakMaterial;
@@ -93,6 +99,24 @@ public class DataEntry {
                             continue;
                         }
                         this.tools.add(toolString);
+                    } else if (toolString.startsWith(PRORPGITEMS_KEY)) {
+                        if (!Bukkit.getPluginManager().isPluginEnabled("ProRPGItems")){
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring allowed tool \""+toolString+"\", ProRPGItems is not enabled");
+                            continue;
+                        }
+                        String itemId = toolString.substring(PRORPGITEMS_KEY.length());
+                        boolean found = false;
+                        for (IModule<?> module : QuantumRPG.getInstance().getModuleManager().getModules()) {
+                            if (module instanceof QModuleDrop && ((QModuleDrop<? extends ModuleItem>) module).getItemById(itemId) != null) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown ProRPGItems tool \""+toolString+'"');
+                            continue;
+                        }
+                        this.tools.add(toolString);
                     } else {
                         try {
                             this.tools.add(Material.valueOf(toolString
@@ -145,6 +169,9 @@ public class DataEntry {
             } else if (toolString.startsWith(ITEMSADDER_KEY)) {
                 CustomStack customStack = CustomStack.byItemStack(itemStack);
                 if (customStack != null && customStack.getId().equals(toolString.substring(ITEMSADDER_KEY.length()))) {return true;}
+            } else if (toolString.startsWith(PRORPGITEMS_KEY)) {
+                String itemId = ItemStats.getId(itemStack);
+                if (itemId != null && itemId.equals(toolString.substring(PRORPGITEMS_KEY.length()))) {return true;}
             } else {
                 if (itemStack.getType().name().equalsIgnoreCase(toolString)) {return true;}
             }

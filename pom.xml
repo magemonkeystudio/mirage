@@ -39,6 +39,11 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+
+        <repository>
+            <id>sonatype</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -107,6 +112,18 @@
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>api-itemsadder</artifactId>
             <version>3.5.0b</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.promcteam</groupId>
+            <artifactId>prorpgitems</artifactId>
+            <version>1.0.4-R0.29-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.promcteam</groupId>
+            <artifactId>promccore</artifactId>
+            <version>1.0.4-R0.13-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
