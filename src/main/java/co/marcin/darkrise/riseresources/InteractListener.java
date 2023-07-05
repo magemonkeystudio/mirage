@@ -78,24 +78,27 @@ public class InteractListener implements Listener {
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
         if (meta instanceof Damageable) {
-            Player player = event.getPlayer();
             Damageable damageable = (Damageable) meta;
-            int newDamage = damageable.getDamage()+entry.get().getToolDamage();
-            boolean undestroyable = item.getType().equals(Material.ELYTRA);
-            int maxDamage = item.getType().getMaxDurability() - (undestroyable ? 1 : 0);
-            if (newDamage >= maxDamage) {
-                if (undestroyable) {
-                    RiseResourcesPlugin.getInstance().debug("Can't use item over max durability");
-                    return;
+            int maxDamage = item.getType().getMaxDurability();
+            if (maxDamage > 0) {
+                boolean indestructible = item.getType().equals(Material.ELYTRA);
+                if (indestructible) {maxDamage--;}
+                int newDamage = damageable.getDamage()+entry.get().getToolDamage();
+                if (newDamage >= maxDamage) {
+                    if (indestructible) {
+                        RiseResourcesPlugin.getInstance().debug("Can't use item over max durability");
+                        return;
+                    }
+                    damageable.setDamage(0);
+                    item.setItemMeta(meta);
+                    Player player = event.getPlayer();
+                    Bukkit.getPluginManager().callEvent(new PlayerItemBreakEvent(player, item));
+                    item.setAmount(item.getAmount()-1);
+                    player.playSound(player.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 1, 1);
+                } else {
+                    damageable.setDamage(newDamage);
+                    item.setItemMeta(meta);
                 }
-                damageable.setDamage(0);
-                item.setItemMeta(meta);
-                Bukkit.getPluginManager().callEvent(new PlayerItemBreakEvent(player, item));
-                item.setAmount(item.getAmount()-1);
-                player.playSound(player.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 1, 1);
-            } else {
-                damageable.setDamage(newDamage);
-                item.setItemMeta(meta);
             }
         }
         if(entry.get().cancelDrop()) {
