@@ -101,7 +101,7 @@ public class InteractListener implements Listener {
                 }
             }
         }
-        if(entry.get().cancelDrop()) {
+        if(!entry.get().cancelDrop()) {
         	event.getBlock().breakNaturally(item);
         }
 
