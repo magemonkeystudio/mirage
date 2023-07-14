@@ -1,10 +1,10 @@
 package co.marcin.darkrise.riseresources;
 
+import co.marcin.darkrise.riseresources.blocks.BlockType;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,26 +13,26 @@ import java.util.Optional;
 
 public class RegenerationEntry implements ConfigurationSerializable {
     private final boolean old;
-    private Long regenTime;
-    private ItemStack material;
-    private Location location;
+    private Long      regenTime;
+    private BlockType blockType;
+    private Location  location;
 
     public RegenerationEntry(Map<?, ?> tempmap) {
         Map<String, Object> map = (Map<String, Object>) tempmap;
         map.put("yaw", Float.valueOf(0.0F));
         map.put("pitch", Float.valueOf(0.0F));
         this.location = Location.deserialize(map);
-        this.material = Utils.getItemFromString((String) map.get("material"));
+        this.blockType = BlockType.make((String) map.get("material"), false);
         this.regenTime = (Long) map.get("regenTime");
-        Validate.notNull(this.material);
+        Validate.notNull(this.blockType);
         this.old = true;
         RiseResourcesPlugin.getInstance().getLogger().info("RegenerationEntry %s, time: " + (new Date(this.regenTime.longValue())).toString());
     }
 
-    public RegenerationEntry(Location location, DataEntry dataEntry) {
+    public RegenerationEntry(Location location, Map.Entry<BlockType,DataEntry> entry) {
         this.location = location;
-        this.material = dataEntry.getMaterial();
-        this.regenTime = Long.valueOf(System.currentTimeMillis() + dataEntry.getRegenerationDelay().longValue() / 20L * 1000L);
+        this.blockType = entry.getKey();
+        this.regenTime = System.currentTimeMillis() + entry.getValue().getRegenerationDelay().longValue() / 20L * 1000L;
         this.old = false;
     }
 
@@ -44,12 +44,12 @@ public class RegenerationEntry implements ConfigurationSerializable {
         this.regenTime = regenTime;
     }
 
-    public ItemStack getMaterial() {
-        return this.material;
+    public BlockType getBlockType() {
+        return this.blockType;
     }
 
-    public void setMaterial(ItemStack material) {
-        this.material = material;
+    public void setBlockType(BlockType blockType) {
+        this.blockType = blockType;
     }
 
     public Location getLocation() {
@@ -69,7 +69,7 @@ public class RegenerationEntry implements ConfigurationSerializable {
         Map<String, Object> map = new HashMap<>();
 
         map.put("regenTime", this.regenTime);
-        map.put("material", this.material.getType().name() + ":" + this.material.getDurability());
+        map.put("material", this.blockType.toString());
         map.putAll(this.location.serialize());
         map.remove("yaw");
         map.remove("pitch");
@@ -78,21 +78,19 @@ public class RegenerationEntry implements ConfigurationSerializable {
     }
 
     public void regenerate() {
-        Optional<DataEntry> entry = RiseResourcesPlugin.getInstance().getData().match(this.material);
+        Optional<Map.Entry<BlockType,DataEntry>> entry = RiseResourcesPlugin.getInstance().getData().match(this.blockType);
 
-        if (!entry.isPresent()) {
-            return;
-        }
+        if (!entry.isPresent()) {return;}
+        DataEntry dataEntry = entry.get().getValue();
 
         RiseResourcesPlugin.getInstance().getData().getRegenerationEntries().remove(this);
-        ItemStack chc = entry.get().chance();
-        this.location.getBlock().setType(chc.getType());
-        this.location.getBlock().getState().setRawData((byte) chc.getDurability());
-        this.location.getBlock().getState().update();
-        if (entry.get().isAgeable() && this.location.getBlock().getBlockData() instanceof Ageable) {
-            RiseResourcesPlugin.getInstance().debug("Setting block's age to " + entry.get().getAge());
+        BlockType chance = dataEntry.chance();
+        if (chance == null) {chance = this.blockType;}
+        chance.place(this.location.getBlock());
+        if (dataEntry.isAgeable() && this.location.getBlock().getBlockData() instanceof Ageable) {
+            RiseResourcesPlugin.getInstance().debug("Setting block's age to " + dataEntry.getAge());
             Ageable ageable = ((Ageable) this.location.getBlock().getBlockData());
-            ageable.setAge(entry.get().getAge());
+            ageable.setAge(dataEntry.getAge());
             this.location.getBlock().setBlockData(ageable);
         }
         RiseResourcesPlugin.getInstance().getData().getTasks().remove(getLocation());

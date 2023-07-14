@@ -21,7 +21,9 @@ disable_turtle_egg: false
 disable_block_growth: true
 
 entries: []
-#- material: IRON_ORE
+#- materials:
+#  - IRON_ORE
+#  - GOLD_ORE
 #  #What the block will turn into after breaking
 #  break-material: CRACKED_STONE_BRICKS
 #  #delay is in ticks (20=1s)
@@ -31,8 +33,9 @@ entries: []
 #    - npchelmet
 #    message: "You need a helmet to break this!"
 #    damage: 1
+#  #What the block will regenerate into. Weights need not add up to 1
 #  chance:
-#    iron_ore: 0.5G
+#    iron_ore: 0.5
 #    gold_ore: 0.25
 #    diamond_ore: 0.01
 #  #If true, the mined/broken block/plant will be removed without drops,

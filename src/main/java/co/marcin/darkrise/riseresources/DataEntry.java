@@ -1,40 +1,26 @@
 package co.marcin.darkrise.riseresources;
 
-import com.google.common.collect.Iterators;
-import com.gotofinal.darkrise.economy.DarkRiseEconomy;
-import dev.lone.itemsadder.api.CustomStack;
-import io.th0rgal.oraxen.api.OraxenItems;
-import mc.promcteam.engine.modules.IModule;
-import me.travja.darkrise.core.item.DarkRiseItem;
+import co.marcin.darkrise.riseresources.blocks.BlockType;
+import co.marcin.darkrise.riseresources.tools.ToolType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import su.nightexpress.quantumrpg.QuantumRPG;
-import su.nightexpress.quantumrpg.modules.ModuleItem;
-import su.nightexpress.quantumrpg.modules.api.QModuleDrop;
-import su.nightexpress.quantumrpg.stats.items.ItemStats;
 
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class DataEntry {
-    private static final String PROMCUTILITIES_KEY = "PROMCU_";
-    private static final String ORAXEN_KEY = "ORAXEN_";
-    private static final String ITEMSADDER_KEY = "ITEMSADDER_";
-    private static final String PRORPGITEMS_KEY = "PRORPGITEMS_";
-    
-    private final ItemStack material;
-    private final ItemStack breakMaterial;
-    private final Long regenerationDelay;
-    private final Set<String> tools = new HashSet<>();
-    private final Map<ItemStack, Double> chance = new HashMap();
+    private final Set<BlockType> materials = new HashSet<>();
+    private final BlockType         breakMaterial;
+    private final Long                   regenerationDelay;
+    private final Set<ToolType>          tools  = new HashSet<>();
+    private final TreeMap<Double,BlockType> chance = new TreeMap<>();
+    private final double totalWeight;
     private final List<DataEntry.Command> commands = new ArrayList();
     private String toolMessage;
     private int toolDamage = 0;
@@ -43,15 +29,33 @@ public class DataEntry {
     
     public DataEntry(Map<String, Object> map) {
         Validate.notNull(map);
-        this.material = Utils.getItemFromString((String) map.get("material"));
-        Validate.notNull(this.material, "Invalid material: " + map.get("material"));
-//        String matString = (String) map.get("break-material");
-//        if(matString.contains(":")) {
-//            breakDurability = Short.parseShort(matString.split(":")[1]);
-//            matString = matString.split(":")[0];
-//        }
-        this.breakMaterial = Utils.getItemFromString((String) map.get("break-material"));
-        Validate.notNull(this.breakMaterial, "Invalid material: " + map.get("break-material"));
+        Object object = map.getOrDefault("materials", map.get("material"));
+        if (object instanceof List) {
+            List<?> materialsList = (List<?>) object;
+            for (Object obj : materialsList) {
+                if (obj instanceof String) {
+                    BlockType blockType = BlockType.make((String) obj, true);
+                    if (blockType != null) {this.materials.add(blockType);}
+                }
+            }
+        } else if (object instanceof String) {
+            BlockType blockType = BlockType.make((String) object, true);
+            if (blockType != null) {this.materials.add(blockType);}
+        }
+        if (this.materials.isEmpty()) {
+            throw new IllegalArgumentException("At least one material is required");
+        }
+
+        object = map.get("break-material");
+        if (object instanceof String) {
+            this.breakMaterial = BlockType.make((String) object, false);
+        } else {
+            this.breakMaterial = null;
+        }
+        if (this.breakMaterial == null) {
+            throw new IllegalArgumentException("Invalid 'break-material' value: "+object);
+        }
+
         this.cancelDrop = (boolean)map.get("cancel-drop");
         this.regenerationDelay = (long) (Integer) map.get("regen-delay");
         if (map.containsKey("tool")) {
@@ -69,81 +73,47 @@ public class DataEntry {
                 }
 
                 for (String toolString : stringList) {
-                    if (toolString.startsWith(PROMCUTILITIES_KEY)) {
-                        if (!Bukkit.getPluginManager().isPluginEnabled("ProMCUtilities")){
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring allowed tool \""+toolString+"\", ProMCUtilities is not enabled");
-                            continue;
-                        }
-                        if (DarkRiseEconomy.getItemsRegistry().getItemById(toolString.substring(PROMCUTILITIES_KEY.length())) == null) {
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown ProMCUtilities tool \""+toolString+'"');
-                            continue;
-                        }
-                        this.tools.add(toolString);
-                    } else if (toolString.startsWith(ORAXEN_KEY)) {
-                        if (!Bukkit.getPluginManager().isPluginEnabled("Oraxen")){
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring allowed tool \""+toolString+"\", Oraxen is not enabled");
-                            continue;
-                        }
-                        if (OraxenItems.getItemById(toolString.substring(ORAXEN_KEY.length())) == null) {
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown Oraxen tool \""+toolString+'"');
-                            continue;
-                        }
-                        this.tools.add(toolString);
-                    } else if (toolString.startsWith(ITEMSADDER_KEY)) {
-                        if (!Bukkit.getPluginManager().isPluginEnabled("ItemsAdder")){
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring allowed tool \""+toolString+"\", ItemsAdder is not enabled");
-                            continue;
-                        }
-                        if (CustomStack.getInstance(toolString.substring(ITEMSADDER_KEY.length())) == null) {
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown ItemsAdder tool \""+toolString+'"');
-                            continue;
-                        }
-                        this.tools.add(toolString);
-                    } else if (toolString.startsWith(PRORPGITEMS_KEY)) {
-                        if (!Bukkit.getPluginManager().isPluginEnabled("ProRPGItems")){
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring allowed tool \""+toolString+"\", ProRPGItems is not enabled");
-                            continue;
-                        }
-                        String itemId = toolString.substring(PRORPGITEMS_KEY.length());
-                        boolean found = false;
-                        for (IModule<?> module : QuantumRPG.getInstance().getModuleManager().getModules()) {
-                            if (module instanceof QModuleDrop && ((QModuleDrop<? extends ModuleItem>) module).getItemById(itemId) != null) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown ProRPGItems tool \""+toolString+'"');
-                            continue;
-                        }
-                        this.tools.add(toolString);
-                    } else {
-                        try {
-                            this.tools.add(Material.valueOf(toolString
-                                    .trim()
-                                    .toUpperCase()
-                                    .replace(' ', '_')
-                                    .replace('-', '_')).name());
-
-                        } catch (IllegalArgumentException e) {
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring unknown material tool \""+toolString+'"');
-                        }
-                    }
+                    ToolType toolType = ToolType.make(toolString);
+                    if (toolType != null) {this.tools.add(toolType);}
                 }
             }
 
-            this.toolMessage = ChatColor.translateAlternateColorCodes('&', (String) tools.getOrDefault("message", (Object) null));
+            this.toolMessage = ChatColor.translateAlternateColorCodes('&', (String) tools.getOrDefault("message", null));
             this.toolDamage = (Integer) tools.getOrDefault("damage", 0);
         }
 
-        Validate.isTrue(map.containsKey("chance"), "Config must contain 'chance' section");
-        Validate.isTrue(map.get("chance") instanceof Map, "'chance' must be a section");
-        this.chance.putAll(((Map<String, Object>) map.get("chance")).entrySet().stream().collect(Collectors.toMap(e -> {
-            ItemStack m = Utils.getItemFromString(e.getKey().toUpperCase());
-            Validate.notNull(m, "Invalid material: " + e.getKey());
-            RiseResourcesPlugin.getInstance().debug("Added chance \"" + e.getKey().toUpperCase() + "\"");
-            return m;
-        }, e -> (Double) e.getValue())));
+        double totalWeight = 0;
+        object = map.get("chance");
+        if (object instanceof Map) {
+            Map<?,?> chanceMap = (Map<?,?>) object;
+            for (Map.Entry<?,?> entry : chanceMap.entrySet()) {
+                Object key = entry.getKey();
+                BlockType blockType;
+                if (key instanceof String) {
+                    blockType = BlockType.make((String) key, true);
+                    if (blockType == null) {continue;}
+                } else {
+                    throw new IllegalArgumentException("Ignoring invalid 'chance' key: "+key);
+                }
+                Object weight = entry.getValue();
+                double chance;
+                if (weight instanceof Number) {
+                    chance = ((Number) weight).doubleValue();
+                    if (chance == 0) {
+                        RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring 'chance' key with 0 weight: "+key);
+                        continue;
+                    }
+                } else {
+                    RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid 'chance' weight: "+weight);
+                    continue;
+                }
+                this.chance.put(totalWeight+=chance, blockType);
+            }
+        } else if (object != null) {
+            throw new IllegalArgumentException("Invalid 'chance' section: "+object);
+        }
+        this.totalWeight = totalWeight;
+
         if (map.containsKey("command")) {
             Validate.isTrue(map.get("command") instanceof List, "'command' section must be a list");
             List<Map<String, Object>> commandList = (List) map.get("command");
@@ -154,27 +124,14 @@ public class DataEntry {
             age = (int) map.get("age");
         }
 
-        Bukkit.getLogger().info("Created DataEntry for material: " + this.material.getType().name());
+        RiseResourcesPlugin.getInstance().debug("Created DataEntry for materials:");
+        for (BlockType blockType : this.materials) {RiseResourcesPlugin.getInstance().debug("- "+blockType.getPrefix());}
     }
 
     public boolean isUsableTool(ItemStack itemStack) {
-        if (this.getTools().isEmpty()) {return true;}
-        for (String toolString : this.tools) {
-            if (toolString.startsWith(PROMCUTILITIES_KEY)) {
-                DarkRiseItem riseItem = DarkRiseEconomy.getItemsRegistry().getItemByStack(itemStack);
-                if (riseItem != null && riseItem.getId().equals(toolString.substring(PROMCUTILITIES_KEY.length()))) {return true;}
-            } else if (toolString.startsWith(ORAXEN_KEY)) {
-                String itemId = OraxenItems.getIdByItem(itemStack);
-                if (itemId != null && itemId.equals(toolString.substring(ORAXEN_KEY.length()))) {return true;}
-            } else if (toolString.startsWith(ITEMSADDER_KEY)) {
-                CustomStack customStack = CustomStack.byItemStack(itemStack);
-                if (customStack != null && customStack.getId().equals(toolString.substring(ITEMSADDER_KEY.length()))) {return true;}
-            } else if (toolString.startsWith(PRORPGITEMS_KEY)) {
-                String itemId = ItemStats.getId(itemStack);
-                if (itemId != null && itemId.equals(toolString.substring(PRORPGITEMS_KEY.length()))) {return true;}
-            } else {
-                if (itemStack.getType().name().equalsIgnoreCase(toolString)) {return true;}
-            }
+        if (this.tools.isEmpty()) {return true;}
+        for (ToolType toolType : this.tools) {
+            if (toolType.isInstance(itemStack)) {return true;}
         }
         return false;
     }
@@ -185,29 +142,17 @@ public class DataEntry {
         });
     }
 
-    public ItemStack chance() {
-        float random = (float) Math.random();
-        float c = 0.0F;
-        Iterator iter = this.chance.entrySet().iterator();
-
-        Entry e;
-        do {
-            if (!iter.hasNext()) {
-                return Iterators.getLast(this.chance.keySet().iterator());
-            }
-
-            e = (Entry) iter.next();
-            c = (float) ((double) c + (Double) e.getValue());
-        } while (c < random);
-
-        return (ItemStack) e.getKey();
+    @Nullable
+    public BlockType chance() {
+        if (this.chance.isEmpty()) {return null;}
+        return this.chance.ceilingEntry(Math.random()*this.totalWeight).getValue();
     }
 
-    public ItemStack getMaterial() {
-        return this.material;
+    public Set<BlockType> getMaterials() {
+        return Collections.unmodifiableSet(this.materials);
     }
 
-    public ItemStack getBreakMaterial() {
+    public BlockType getBreakMaterial() {
         return this.breakMaterial;
     }
 
@@ -215,7 +160,7 @@ public class DataEntry {
         return this.regenerationDelay;
     }
 
-    public Collection<String> getTools() {
+    public Collection<ToolType> getTools() {
         return Collections.unmodifiableCollection(this.tools);
     }
 
@@ -228,8 +173,8 @@ public class DataEntry {
         return this.toolDamage;
     }
 
-    public Map<ItemStack, Double> getChance() {
-        return this.chance;
+    public Map<Double,BlockType> getChanceMap() {
+        return Collections.unmodifiableMap(this.chance);
     }
 
     public List<DataEntry.Command> getCommands() {
@@ -239,7 +184,6 @@ public class DataEntry {
     public boolean cancelDrop() {
     	return cancelDrop;
     }
-   
     
     public boolean isAgeable() {
         return age != null;

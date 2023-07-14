@@ -1,5 +1,6 @@
 package co.marcin.darkrise.riseresources;
 
+import co.marcin.darkrise.riseresources.blocks.BlockType;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -8,7 +9,6 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
@@ -23,7 +23,7 @@ public class Data {
     private static final Long watchdogInterval = Long.valueOf(900L);
     private static final Long watchdogIntervalTicks = Long.valueOf(watchdogInterval.longValue() * 20L);
     public static boolean restrictCropGrowth = true, restrictMelonGrowth = true, restrictTurtleEgg = false, restrictBlockGrowth = true;
-    private final Collection<DataEntry> entries = new HashSet<>();
+    private final Map<BlockType,DataEntry> entries = new HashMap<>();
     private final Collection<RegenerationEntry> regenerationEntries = new HashSet<>();
     private final Map<Location, BukkitTask> tasks = new HashMap<>();
     private File storageFile;
@@ -53,17 +53,23 @@ public class Data {
         this.entries.clear();
         section.getMapList("entries").stream()
                 .map(map -> {
-
                     try {
                         return new DataEntry((Map<String, Object>) map);
                     } catch (Exception e) {
                         RiseResourcesPlugin.getInstance().getLogger().info("Invalid entry: " + e.getMessage());
-
                         e.printStackTrace();
                         return null;
                     }
                 }).filter(Objects::nonNull)
-                .forEach(this.entries::add);
+                .forEach(dataEntry -> {
+                    for (BlockType blockType : dataEntry.getMaterials()) {
+                        DataEntry existing = this.entries.put(blockType, dataEntry);
+                        RiseResourcesPlugin.getInstance().debug("Registered entry for block type "+blockType+"'");
+                        if (existing != null) {
+                            RiseResourcesPlugin.getInstance().getLogger().warning("Overriding duplicate block type '"+blockType+"'");
+                        }
+                    }
+                });
 
         restrictCropGrowth = section.getBoolean("disable_crop_growth");
         restrictMelonGrowth = section.getBoolean("disable_melon_growth");
@@ -73,10 +79,11 @@ public class Data {
         RiseResourcesPlugin.getInstance().getLogger().info("Loaded " + this.entries.size() + " entries.");
     }
 
-    public Optional<DataEntry> match(ItemStack material) {
-        for (DataEntry entry : this.entries) {
-            RiseResourcesPlugin.getInstance().debug("Comparing broken " + material.getType() + ":" + material.getDurability() + " with " + entry.getMaterial().getType() + ":" + entry.getMaterial().getDurability());
-            if (entry.getMaterial().getType() != material.getType() || entry.getMaterial().getDurability() != material.getDurability()) {
+    public Optional<Map.Entry<BlockType,DataEntry>> match(Block block) {
+        for (Map.Entry<BlockType,DataEntry> entry : this.entries.entrySet()) {
+            BlockType blockType = entry.getKey();
+            RiseResourcesPlugin.getInstance().debug("Comparing broken " + block.getType() +" with " + blockType);
+            if (!blockType.isInstance(block)) {
                 RiseResourcesPlugin.getInstance().debug("Not a match.");
                 continue;
             }
@@ -89,15 +96,32 @@ public class Data {
         return Optional.empty();
     }
 
-    public Optional<DataEntry> match(BlockBreakEvent event) {
-        RiseResourcesPlugin.getInstance().debug("Attempting to find a match for " + event.getBlock().getType() + " with data value of " + event.getBlock().getData());
-        return match(new ItemStack(event.getBlock().getType(), 1, event.getBlock().getData()));
+    public Optional<Map.Entry<BlockType,DataEntry>> match(BlockType blockType) {
+        for (Map.Entry<BlockType,DataEntry> entry : this.entries.entrySet()) {
+            BlockType blockType1 = entry.getKey();
+            RiseResourcesPlugin.getInstance().debug("Comparing broken " + blockType1 +" with " + blockType);
+            if (!blockType1.equals(blockType)) {
+                RiseResourcesPlugin.getInstance().debug("Not a match.");
+                continue;
+            }
+
+            RiseResourcesPlugin.getInstance().debug("We have a match.");
+            return Optional.of(entry);
+        }
+
+        RiseResourcesPlugin.getInstance().debug("No matches found.");
+        return Optional.empty();
     }
 
-    public RegenerationEntry addRegenerationEntry(Block block, DataEntry dataEntry, boolean runTask) {
+    public Optional<Map.Entry<BlockType,DataEntry>> match(BlockBreakEvent event) {
+        RiseResourcesPlugin.getInstance().debug("Attempting to find a match for " + event.getBlock().getType() + " with data value of " + event.getBlock().getData());
+        return match(event.getBlock());
+    }
+
+    public RegenerationEntry addRegenerationEntry(Block block, Map.Entry<BlockType,DataEntry> entry, boolean runTask) {
         Validate.notNull(block);
-        Validate.notNull(dataEntry);
-        RegenerationEntry e = new RegenerationEntry(block.getLocation(), dataEntry);
+        Validate.notNull(entry);
+        RegenerationEntry e = new RegenerationEntry(block.getLocation(), entry);
         this.regenerationEntries.add(e);
         RiseResourcesPlugin.getInstance().getLogger().info("Will be regenerated at " + new Date(e.getRegenTime().longValue()));
 

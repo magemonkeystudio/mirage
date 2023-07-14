@@ -1,5 +1,6 @@
 package co.marcin.darkrise.riseresources;
 
+import co.marcin.darkrise.riseresources.blocks.BlockType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class InteractListener implements Listener {
@@ -30,10 +32,9 @@ public class InteractListener implements Listener {
         if (event.getPlayer().hasPermission("blockregen.override")) return;
 
         RiseResourcesPlugin.getInstance().debug(event.getBlock().getType() + " has been broken.");
-        Optional<DataEntry> entry = this.plugin.getData().match(event);
+        Optional<Map.Entry<BlockType,DataEntry>> entry = this.plugin.getData().match(event);
    
         event.setCancelled(true);
-      
        
         if (this.plugin.getData().isRegenerating(event.getBlock())) {
 //            event.setCancelled(true);
@@ -44,13 +45,12 @@ public class InteractListener implements Listener {
             RiseResourcesPlugin.getInstance().debug("Entry is not present.");
             return;
         }
-
+        DataEntry dataEntry = entry.get().getValue();
 
         if (this.plugin.isWorldGuardEnabled() && WorldGuardHook.isRegionDisabledAt(event.getBlock().getLocation())) {
             RiseResourcesPlugin.getInstance().debug("This is in a WG disabled region.");
             return;
         }
-
 
         if (this.plugin.isTownyHookEnabled() && TownyHook.isClaimed(event.getBlock().getLocation())) {
             RiseResourcesPlugin.getInstance().debug("This is in a Towny claimed chunk.");
@@ -69,8 +69,8 @@ public class InteractListener implements Listener {
 
         RiseResourcesPlugin.getInstance().debug("This is a ProBlockRegen resource.");
 
-        if (!entry.get().isUsableTool(event.getPlayer().getInventory().getItemInMainHand())) {
-            String toolMessage = entry.get().getToolMessage();
+        if (!dataEntry.isUsableTool(event.getPlayer().getInventory().getItemInMainHand())) {
+            String toolMessage = dataEntry.getToolMessage();
             if (toolMessage != null) {event.getPlayer().sendMessage(toolMessage);}
             return;
         }
@@ -83,7 +83,7 @@ public class InteractListener implements Listener {
             if (maxDamage > 0) {
                 boolean indestructible = item.getType().equals(Material.ELYTRA);
                 if (indestructible) {maxDamage--;}
-                int newDamage = damageable.getDamage()+entry.get().getToolDamage();
+                int newDamage = damageable.getDamage()+dataEntry.getToolDamage();
                 if (newDamage >= maxDamage) {
                     if (indestructible) {
                         RiseResourcesPlugin.getInstance().debug("Can't use item over max durability");
@@ -101,27 +101,27 @@ public class InteractListener implements Listener {
                 }
             }
         }
-        if(!entry.get().cancelDrop()) {
+        if(!dataEntry.cancelDrop()) {
         	event.getBlock().breakNaturally(item);
         }
 
-//        item.setDurability((short) entry.get().getToolDamage().intValue());
+//        item.setDurability((short) dataEntry.get().getToolDamage().intValue());
         event.getPlayer().getInventory().setItemInMainHand(item);
         RiseResourcesPlugin.getInstance().debug("Tool has been damaged and applied. Executing any commands.");
 
-        entry.get().executeCommands(event.getPlayer());
+        dataEntry.executeCommands(event.getPlayer());
         RiseResourcesPlugin.getInstance().debug("Updating the block to the break material.");
-        event.getBlock().setType(entry.get().getBreakMaterial().getType());
-//        event.getBlock().setData((byte) entry.get().getBreakMaterial().getDurability());
+        dataEntry.getBreakMaterial().place(event.getBlock());
+//        event.getBlock().setData((byte) dataEntry.get().getBreakMaterial().getDurability());
         event.getBlock().getState().update();
         RiseResourcesPlugin.getInstance().debug("Block broken and updated. Starting regeneration task.");
         this.plugin.getData().addRegenerationEntry(event.getBlock(), entry.get(), true);
 
         RiseResourcesPlugin.getInstance().getLogger().info(String.format("Resource broken (%s) at (%d, %d, %d) by %s",
-                entry.get().getMaterial().getType().name(),
-                Integer.valueOf(event.getBlock().getX()),
-                Integer.valueOf(event.getBlock().getY()),
-                Integer.valueOf(event.getBlock().getZ()),
+                entry.get().getKey().toString(),
+                event.getBlock().getX(),
+                event.getBlock().getY(),
+                event.getBlock().getZ(),
                 event.getPlayer().getName()));
     }
 
