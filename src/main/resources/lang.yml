@@ -1,0 +1,7 @@
+rewards:
+  cannot-afford:
+    exp: "&cMining this block costs {amount} exp, but you have {current}"
+  deducted:
+    exp: ""
+  rewarded:
+    exp: "&7You earned {amount} exp from mining this block."

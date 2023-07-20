@@ -18,11 +18,9 @@ public class RiseResourcesPlugin extends JavaPlugin {
     }
 
     private final Data data = new Data();
+    private       Lang lang;
 
-    public Data getData() {
-        return this.data;
-    }
-
+    public Data getData() {return this.data;}
 
     private final List<String> disabledRegions = new ArrayList<>();
 
@@ -116,6 +114,8 @@ public class RiseResourcesPlugin extends JavaPlugin {
             this.worldsBlacklisted = !getConfig().getBoolean("disabled-worlds.whitelist", false);
         }
 
+        this.lang = new Lang(this);
+
 
         getData().startRegenerationWatchdog();
 
@@ -141,6 +141,9 @@ public class RiseResourcesPlugin extends JavaPlugin {
     public void reloadConfigs() {
         reloadConfig();
         getData().load(getConfig());
+
+        this.debug = getConfig().getBoolean("debug", false);
+
         disabledRegions.clear();
         regionsBlacklisted = true;
         if (getConfig().contains("disabled-regions.list")) {
@@ -156,5 +159,9 @@ public class RiseResourcesPlugin extends JavaPlugin {
             this.worldsBlacklisted = !getConfig().getBoolean("disabled-worlds.whitelist", false);
 
         }
+
+        this.lang = new Lang(this);
     }
+
+    public Lang getLang() {return lang;}
 }

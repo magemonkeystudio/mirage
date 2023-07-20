@@ -1,6 +1,7 @@
 package co.marcin.darkrise.riseresources;
 
 import co.marcin.darkrise.riseresources.blocks.BlockType;
+import co.marcin.darkrise.riseresources.rewards.Reward;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -75,6 +76,14 @@ public class InteractListener implements Listener {
             return;
         }
         RiseResourcesPlugin.getInstance().debug("We're using the correct tool.");
+
+        Reward cost = dataEntry.applyCostsAndRewards(event.getPlayer(), true);
+        if (cost != null) {
+            RiseResourcesPlugin.getInstance().debug("Cannot afford "+cost.getAmount()+" "+cost.getName());
+            return;
+        }
+        RiseResourcesPlugin.getInstance().debug("Mining costs deducted");
+
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
         if (meta instanceof Damageable) {

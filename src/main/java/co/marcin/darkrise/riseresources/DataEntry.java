@@ -1,6 +1,7 @@
 package co.marcin.darkrise.riseresources;
 
 import co.marcin.darkrise.riseresources.blocks.BlockType;
+import co.marcin.darkrise.riseresources.rewards.Reward;
 import co.marcin.darkrise.riseresources.tools.ToolType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -18,8 +19,10 @@ public class DataEntry {
     private final Set<BlockType> materials = new HashSet<>();
     private final BlockType         breakMaterial;
     private final Long                   regenerationDelay;
-    private final Set<ToolType>          tools  = new HashSet<>();
-    private final TreeMap<Double,BlockType> chance = new TreeMap<>();
+    private final Set<ToolType>             tools   = new HashSet<>();
+    private final List<Reward>              rewards = new ArrayList<>();
+    private final List<Reward>              costs   = new ArrayList<>();
+    private final TreeMap<Double,BlockType> chance  = new TreeMap<>();
     private final double totalWeight;
     private final List<DataEntry.Command> commands = new ArrayList();
     private String toolMessage;
@@ -114,6 +117,25 @@ public class DataEntry {
         }
         this.totalWeight = totalWeight;
 
+        object = map.get("rewards");
+        if (object instanceof List) {
+            List<?> list = (List<?>) object;
+            for (Object obj : list) {
+                if (obj instanceof String) {
+                    try {
+                        Reward reward = Reward.make((String) obj);
+                        if (reward.getAmount() > 0) {
+                            this.rewards.add(reward);
+                        } else {
+                            this.costs.add(reward);
+                        }
+                    } catch (Exception e) {
+                        RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\": "+e.getMessage());
+                    }
+                }
+            }
+        }
+
         if (map.containsKey("command")) {
             Validate.isTrue(map.get("command") instanceof List, "'command' section must be a list");
             List<Map<String, Object>> commandList = (List) map.get("command");
@@ -134,6 +156,35 @@ public class DataEntry {
             if (toolType.isInstance(itemStack)) {return true;}
         }
         return false;
+    }
+
+    /**
+     * Checks if the provided Player can afford the costs of mining a block.
+     * @param player The Player who attempted to mine the block
+     * @param apply Whether to immediately apply all mining costs and rewards to the provided player, in
+     *                         case they can afford the costs.
+     * @return the first cost detected that the Player can't afford, or null if they can afford everything.
+     */
+    @Nullable
+    public Reward applyCostsAndRewards(Player player, boolean apply) {
+        Lang lang = RiseResourcesPlugin.getInstance().getLang();
+        for (Reward cost : this.costs) {
+            if (!cost.canAfford(player)) {
+                lang.sendCannotAffordMessage(player, cost);
+                return cost;
+            }
+        }
+        if (apply) {
+            for (Reward cost : this.costs) {
+                cost.apply(player);
+                lang.sendDeductedMessage(player, cost);
+            }
+            for (Reward reward : this.rewards) {
+                reward.apply(player);
+                lang.sendRewardedMessage(player, reward);
+            }
+        }
+        return null;
     }
 
     public void executeCommands(Player player) {
