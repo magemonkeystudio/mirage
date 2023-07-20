@@ -12,6 +12,8 @@ public abstract class Reward {
     public static Reward make(String string) {
         if (string.startsWith(VanillaExpReward.NAME)) {
             return new VanillaExpReward(string);
+        } else if (string.startsWith(VaultMoneyReward.NAME)) {
+            return new VaultMoneyReward(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }

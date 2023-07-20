@@ -40,6 +40,7 @@ entries: []
 #    diamond_ore: 0.01
 #  rewards:
 #    - "exp:5"
+#    - "VAULT_money:-5"
 #  #If true, the mined/broken block/plant will be removed without drops,
 #  #so that you can add custom drops with commands
 #  cancel-drop: true

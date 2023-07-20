@@ -21,6 +21,7 @@ public class Lang {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         loadRewardClass(config, VanillaExpReward.class, VanillaExpReward.NAME);
+        loadRewardClass(config, VaultMoneyReward.class, VaultMoneyReward.NAME);
     }
 
     private void loadRewardClass(YamlConfiguration config, Class<? extends Reward> clazz, String name) {
