@@ -41,6 +41,9 @@ entries: []
 #  rewards:
 #    - "exp:5"
 #    - "VAULT_money:-5"
+#    - "JOBS_money:5"
+#    - "JOBS_exp_miner:5"
+#    - "JOBS_:5"
 #  #If true, the mined/broken block/plant will be removed without drops,
 #  #so that you can add custom drops with commands
 #  cancel-drop: true

@@ -1,8 +1,6 @@
 package co.marcin.darkrise.riseresources;
 
-import co.marcin.darkrise.riseresources.rewards.Reward;
-import co.marcin.darkrise.riseresources.rewards.VanillaExpReward;
-import co.marcin.darkrise.riseresources.rewards.VaultMoneyReward;
+import co.marcin.darkrise.riseresources.rewards.*;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -22,6 +20,9 @@ public class Lang {
 
         loadRewardClass(config, VanillaExpReward.class, VanillaExpReward.NAME);
         loadRewardClass(config, VaultMoneyReward.class, VaultMoneyReward.NAME);
+        loadRewardClass(config, JobsMoneyReward.class, JobsMoneyReward.NAME);
+        loadRewardClass(config, JobsExpReward.class, JobsExpReward.NAME);
+        loadRewardClass(config, JobsPointsReward.class, JobsPointsReward.NAME);
     }
 
     private void loadRewardClass(YamlConfiguration config, Class<? extends Reward> clazz, String name) {
@@ -37,27 +38,36 @@ public class Lang {
     public void sendCannotAffordMessage(Player player, Reward reward) {
         String message = this.cannotAfford.get(reward.getClass());
         if (message != null && !message.equals("")) {
-            player.sendMessage(message
-                    .replace("{amount}", String.valueOf(reward.getAmount()))
-                    .replace("{current}", String.valueOf(reward.getCurrentAmount(player))));
+            message = message.replace("{amount}", String.valueOf(-reward.getAmount()));
+            String[] args = reward.getMessageArgs();
+            for (int i = 0; i < args.length; i++) {
+                message = message.replace('{'+String.valueOf(i)+'}', args[0]);
+            }
+            player.sendMessage(message);
         }
     }
 
     public void sendDeductedMessage(Player player, Reward reward) {
         String message = this.deducted.get(reward.getClass());
         if (message != null && !message.equals("")) {
-            player.sendMessage(message
-                    .replace("{amount}", String.valueOf(reward.getAmount()))
-                    .replace("{current}", String.valueOf(reward.getCurrentAmount(player))));
+            message = message.replace("{amount}", String.valueOf(-reward.getAmount()));
+            String[] args = reward.getMessageArgs();
+            for (int i = 0; i < args.length; i++) {
+                message = message.replace('{'+String.valueOf(i)+'}', args[0]);
+            }
+            player.sendMessage(message);
         }
     }
 
     public void sendRewardedMessage(Player player, Reward reward) {
         String message = this.rewarded.get(reward.getClass());
         if (message != null && !message.equals("")) {
-            player.sendMessage(message
-                    .replace("{amount}", String.valueOf(reward.getAmount()))
-                    .replace("{current}", String.valueOf(reward.getCurrentAmount(player))));
+            message = message.replace("{amount}", String.valueOf(reward.getAmount()));
+            String[] args = reward.getMessageArgs();
+            for (int i = 0; i < args.length; i++) {
+                message = message.replace('{'+String.valueOf(i)+'}', args[0]);
+            }
+            player.sendMessage(message);
         }
     }
 }

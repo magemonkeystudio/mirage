@@ -1,5 +1,6 @@
 package co.marcin.darkrise.riseresources.rewards;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +15,21 @@ public abstract class Reward {
             return new VanillaExpReward(string);
         } else if (string.startsWith(VaultMoneyReward.NAME)) {
             return new VaultMoneyReward(string);
+        } else if (string.startsWith(JobsMoneyReward.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("Jobs")) {
+                throw new IllegalStateException("Jobs is not enabled");
+            }
+            return new JobsMoneyReward(string);
+        } else if (string.startsWith(JobsExpReward.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("Jobs")) {
+                throw new IllegalStateException("Jobs is not enabled");
+            }
+            return new JobsExpReward(string);
+        } else if (string.startsWith(JobsPointsReward.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("Jobs")) {
+                throw new IllegalStateException("Jobs is not enabled");
+            }
+            return new JobsPointsReward(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }
@@ -36,9 +52,9 @@ public abstract class Reward {
 
     public final double getAmount() {return this.amount;}
 
-    public abstract double getCurrentAmount(Player player);
-
-    public final boolean canAfford(@NotNull Player player) {return this.getCurrentAmount(player) >= -this.amount;}
+    public abstract boolean canAfford(@NotNull Player player);
 
     public abstract void apply(@NotNull Player player);
+
+    public String[] getMessageArgs() {return new String[0];}
 }

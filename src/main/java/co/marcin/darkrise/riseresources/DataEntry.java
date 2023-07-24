@@ -129,8 +129,11 @@ public class DataEntry {
                         } else {
                             this.costs.add(reward);
                         }
-                    } catch (Exception e) {
+                    } catch (IllegalArgumentException | IllegalStateException e) {
                         RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\": "+e.getMessage());
+                    } catch (Exception e) {
+                        RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\":");
+                        e.printStackTrace();
                     }
                 }
             }

@@ -9,6 +9,7 @@ softdepend:
 - Oraxen
 - ItemsAdder
 - ProRPGItems
+- Jobs
 commands:
   resources:
     description: The base command for ProBlockRegen

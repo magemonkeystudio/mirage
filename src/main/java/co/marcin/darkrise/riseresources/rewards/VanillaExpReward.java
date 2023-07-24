@@ -14,7 +14,9 @@ public class VanillaExpReward extends Reward {
     public String getName() {return NAME;}
 
     @Override
-    public double getCurrentAmount(Player player) {return this.getTotalExp(player);}
+    public boolean canAfford(@NotNull Player player) {
+        return this.getTotalExp(player) >= -this.amount;
+    }
 
     @Override
     public void apply(@NotNull Player player) {

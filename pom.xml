@@ -138,6 +138,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.github.Zrips</groupId>
+            <artifactId>Jobs</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

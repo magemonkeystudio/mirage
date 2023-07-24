@@ -1,10 +1,19 @@
 rewards:
   cannot-afford:
-    exp: "&cMining this block costs {amount} exp, but you have {current}"
-    VAULT_money: "&cMining this block costs {amount}G, but you have {current}G"
+    exp: "&cYou need at least {amount} exp to mine this block."
+    VAULT_money: "&cYou need at least {amount} G to mine this block."
+    JOBS_money: "&cYou need at least {amount} G to mine this block."
+    JOBS_exp: "&cYou need at least {amount} {0} exp to mine this block."
+    JOBS_points: "&cYou need at least {amount} points to mine this block."
   deducted:
     exp: ""
     VAULT_money: ""
+    JOBS_money: ""
+    JOBS_exp: ""
+    JOBS_points: ""
   rewarded:
     exp: "&7You earned {amount} exp from mining this block."
     VAULT_money: "&7You earned {amount} G from mining this block."
+    JOBS_money: "&7You earned {amount} G from mining this block."
+    JOBS_exp: "&7You earned {amount} {0} exp from mining this block."
+    JOBS_points: "&7You earned {amount} points from mining this block."

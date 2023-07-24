@@ -28,9 +28,9 @@ public class VaultMoneyReward extends Reward {
     public String getName() {return NAME;}
 
     @Override
-    public double getCurrentAmount(Player player) {
+    public boolean canAfford(@NotNull Player player) {
         if (VaultMoneyReward.economy == null) {throw new IllegalStateException("Vault is not enabled");}
-        return VaultMoneyReward.economy.getBalance(player);
+        return VaultMoneyReward.economy.getBalance(player) >= -this.amount;
     }
 
     @Override
