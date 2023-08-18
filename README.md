@@ -20,6 +20,6 @@ or snapshots through Sonatype.
 <dependency>
     <groupId>com.promcteam</groupId>
     <artifactId>problockregen</artifactId>
-    <version>1.1.1-R2</version>
+    <version>1.1.3-R1</version>
 </dependency>
 ```
