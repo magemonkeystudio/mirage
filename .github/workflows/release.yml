@@ -3,7 +3,7 @@ name: Release Build
 on:
   push:
     branches: [ main ]
-    paths: [ src/** ]
+#    paths: [ src/** ]
 
 jobs:
   deploy:
@@ -53,6 +53,7 @@ jobs:
           git push
           git fetch --all
           git checkout dev
+          git pull
           git merge -X theirs --no-edit main
           git push
       - name: Notify Discord
