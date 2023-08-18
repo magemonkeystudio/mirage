@@ -19,15 +19,17 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 public class Data {
-    private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    private static final Long watchdogInterval = Long.valueOf(900L);
-    private static final Long watchdogIntervalTicks = Long.valueOf(watchdogInterval.longValue() * 20L);
-    public static boolean restrictCropGrowth = true, restrictMelonGrowth = true, restrictTurtleEgg = false, restrictBlockGrowth = true;
-    private final Map<BlockType,DataEntry> entries = new HashMap<>();
+    private static final ScheduledExecutorService scheduler             = Executors.newSingleThreadScheduledExecutor();
+    private static final Long                     watchdogInterval      = Long.valueOf(900L);
+    private static final Long                     watchdogIntervalTicks =
+            Long.valueOf(watchdogInterval.longValue() * 20L);
+    public static        boolean                  restrictCropGrowth    = true, restrictMelonGrowth = true,
+            restrictTurtleEgg                                           = false, restrictBlockGrowth = true;
+    private final Map<BlockType, DataEntry>     entries             = new HashMap<>();
     private final Collection<RegenerationEntry> regenerationEntries = new HashSet<>();
-    private final Map<Location, BukkitTask> tasks = new HashMap<>();
-    private File storageFile;
-    private BukkitTask watchdog = null;
+    private final Map<Location, BukkitTask>     tasks               = new HashMap<>();
+    private       File                          storageFile;
+    private       BukkitTask                    watchdog            = null;
 
     public static ScheduledExecutorService getScheduler() {
         return scheduler;
@@ -64,9 +66,11 @@ public class Data {
                 .forEach(dataEntry -> {
                     for (BlockType blockType : dataEntry.getMaterials()) {
                         DataEntry existing = this.entries.put(blockType, dataEntry);
-                        RiseResourcesPlugin.getInstance().debug("Registered entry for block type "+blockType+"'");
+                        RiseResourcesPlugin.getInstance().debug("Registered entry for block type " + blockType + "'");
                         if (existing != null) {
-                            RiseResourcesPlugin.getInstance().getLogger().warning("Overriding duplicate block type '"+blockType+"'");
+                            RiseResourcesPlugin.getInstance()
+                                    .getLogger()
+                                    .warning("Overriding duplicate block type '" + blockType + "'");
                         }
                     }
                 });
@@ -79,10 +83,10 @@ public class Data {
         RiseResourcesPlugin.getInstance().getLogger().info("Loaded " + this.entries.size() + " entries.");
     }
 
-    public Optional<Map.Entry<BlockType,DataEntry>> match(Block block) {
-        for (Map.Entry<BlockType,DataEntry> entry : this.entries.entrySet()) {
+    public Optional<Map.Entry<BlockType, DataEntry>> match(Block block) {
+        for (Map.Entry<BlockType, DataEntry> entry : this.entries.entrySet()) {
             BlockType blockType = entry.getKey();
-            RiseResourcesPlugin.getInstance().debug("Comparing broken " + block.getType() +" with " + blockType);
+            RiseResourcesPlugin.getInstance().debug("Comparing broken " + block.getType() + " with " + blockType);
             if (!blockType.isInstance(block)) {
                 RiseResourcesPlugin.getInstance().debug("Not a match.");
                 continue;
@@ -96,10 +100,10 @@ public class Data {
         return Optional.empty();
     }
 
-    public Optional<Map.Entry<BlockType,DataEntry>> match(BlockType blockType) {
-        for (Map.Entry<BlockType,DataEntry> entry : this.entries.entrySet()) {
+    public Optional<Map.Entry<BlockType, DataEntry>> match(BlockType blockType) {
+        for (Map.Entry<BlockType, DataEntry> entry : this.entries.entrySet()) {
             BlockType blockType1 = entry.getKey();
-            RiseResourcesPlugin.getInstance().debug("Comparing broken " + blockType1 +" with " + blockType);
+            RiseResourcesPlugin.getInstance().debug("Comparing broken " + blockType1 + " with " + blockType);
             if (!blockType1.equals(blockType)) {
                 RiseResourcesPlugin.getInstance().debug("Not a match.");
                 continue;
@@ -113,17 +117,21 @@ public class Data {
         return Optional.empty();
     }
 
-    public Optional<Map.Entry<BlockType,DataEntry>> match(BlockBreakEvent event) {
-        RiseResourcesPlugin.getInstance().debug("Attempting to find a match for " + event.getBlock().getType() + " with data value of " + event.getBlock().getData());
+    public Optional<Map.Entry<BlockType, DataEntry>> match(BlockBreakEvent event) {
+        RiseResourcesPlugin.getInstance()
+                .debug("Attempting to find a match for " + event.getBlock().getType() + " with data value of "
+                        + event.getBlock().getData());
         return match(event.getBlock());
     }
 
-    public RegenerationEntry addRegenerationEntry(Block block, Map.Entry<BlockType,DataEntry> entry, boolean runTask) {
+    public RegenerationEntry addRegenerationEntry(Block block, Map.Entry<BlockType, DataEntry> entry, boolean runTask) {
         Validate.notNull(block);
         Validate.notNull(entry);
         RegenerationEntry e = new RegenerationEntry(block.getLocation(), entry);
         this.regenerationEntries.add(e);
-        RiseResourcesPlugin.getInstance().getLogger().info("Will be regenerated at " + new Date(e.getRegenTime().longValue()));
+        RiseResourcesPlugin.getInstance()
+                .getLogger()
+                .info("Will be regenerated at " + new Date(e.getRegenTime().longValue()));
 
         if (runTask) {
             startRegenerationTask(e);
@@ -152,8 +160,8 @@ public class Data {
     }
 
     public void saveRegenerationEntries() throws IOException {
-        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(this.storageFile);
-        List<Map<String, Object>> list = new ArrayList<>();
+        YamlConfiguration         configuration = YamlConfiguration.loadConfiguration(this.storageFile);
+        List<Map<String, Object>> list          = new ArrayList<>();
         for (RegenerationEntry regenerationEntry : this.regenerationEntries) {
             Map<String, Object> serialize = regenerationEntry.serialize();
             list.add(serialize);
@@ -168,9 +176,13 @@ public class Data {
             return;
         }
 
-        RiseResourcesPlugin.getInstance().getLogger().info(entry.getLocation().toString() + " is gonna be regenerated in " + ((entry.getRegenTime().longValue() - System.currentTimeMillis()) / 1000L) + " seconds");
-        this.tasks.put(entry.getLocation(), Bukkit.getScheduler().runTaskLater(RiseResourcesPlugin.getInstance(), entry::regenerate, (entry
-                .getRegenTime().longValue() - System.currentTimeMillis()) / 1000L * 20L));
+        RiseResourcesPlugin.getInstance()
+                .getLogger()
+                .info(entry.getLocation().toString() + " is gonna be regenerated in " + (
+                        (entry.getRegenTime().longValue() - System.currentTimeMillis()) / 1000L) + " seconds");
+        this.tasks.put(entry.getLocation(),
+                Bukkit.getScheduler().runTaskLater(RiseResourcesPlugin.getInstance(), entry::regenerate, (entry
+                        .getRegenTime().longValue() - System.currentTimeMillis()) / 1000L * 20L));
     }
 
     public void startRegenerationWatchdog() {
@@ -180,7 +192,9 @@ public class Data {
 
         this.watchdog = Bukkit.getScheduler().runTaskTimerAsynchronously(RiseResourcesPlugin.getInstance(),
                 () -> this.regenerationEntries.stream().filter(RegenerationEntry::isOld)
-                        .peek(e -> RiseResourcesPlugin.getInstance().getLogger().info("Watchdog: " + (System.currentTimeMillis() - e.getRegenTime()) / 1000L))
+                        .peek(e -> RiseResourcesPlugin.getInstance()
+                                .getLogger()
+                                .info("Watchdog: " + (System.currentTimeMillis() - e.getRegenTime()) / 1000L))
                         .filter(e -> (System.currentTimeMillis() - e.getRegenTime()) / 1000L < watchdogInterval)
                         .peek(e -> RiseResourcesPlugin.getInstance().getLogger().info("Watchdog: " + e.getLocation()))
                         .forEach(this::startRegenerationTask), 0L, watchdogIntervalTicks);

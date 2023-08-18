@@ -40,7 +40,10 @@ public class VanillaBlockType extends BlockType {
 
     @Override
     public boolean isInstance(Block block) {
-        return block.getType().equals(this.material) && block.getData() == this.data;
+        return block.getType().equals(this.material) && (
+                this.data == 0 ||
+                block.getData() == this.data
+        );
     }
 
     @Override
