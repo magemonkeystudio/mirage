@@ -17,14 +17,9 @@ If you wish to use ProBlockRegen as a dependency in your projects, ProBlockRegen
 or snapshots through Sonatype.
 
 ```xml
-<repository>
-    <id>sonatype</id>
-    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-</repository>
-...
 <dependency>
     <groupId>com.promcteam</groupId>
     <artifactId>problockregen</artifactId>
-    <version>1.1.1-R0.0-SNAPSHOT</version>
+    <version>1.1.1-R2</version>
 </dependency>
 ```
