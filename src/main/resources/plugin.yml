@@ -1,4 +1,4 @@
-name: ProBlockRegen
+name: ${project.name}
 main: co.marcin.darkrise.riseresources.RiseResourcesPlugin
 version: ${project.version}
 authors: [Travja, GoFlish]
