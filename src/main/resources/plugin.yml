@@ -1,7 +1,7 @@
 name: ${project.name}
 main: co.marcin.darkrise.riseresources.RiseResourcesPlugin
 version: ${project.version}
-authors: [Travja, GoFlish]
+authors: [Travja, GoFlish, Sentropic]
 api-version: 1.13
 softdepend:
 - WorldGuard
