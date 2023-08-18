@@ -51,9 +51,8 @@ jobs:
           git reset settings.xml log.txt
           git commit -m "Update release version"
           git push
-          git fetch --all
+          git fetch --unshallow --all
           git checkout dev
-          git pull
           git merge -X theirs --no-edit main
           git push
       - name: Notify Discord

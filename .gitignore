@@ -2,3 +2,4 @@ test/
 target/
 *.iml
 /*.idea/
+gh-pages
