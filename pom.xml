@@ -52,13 +52,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.gotofinal</groupId>
-            <artifactId>economy</artifactId>
-            <version>1.0-4322210</version>
+            <groupId>com.promcteam</groupId>
+            <artifactId>promcutilities</artifactId>
+            <version>1.0.1-R0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>me.travja</groupId>
+            <groupId>com.promcteam</groupId>
             <artifactId>risecore</artifactId>
             <version>${rc.version}</version>
             <scope>provided</scope>
