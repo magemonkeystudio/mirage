@@ -22,8 +22,9 @@ def get_info():
 
 version, name, url = get_info()
 if not is_dev:
-    url = url.replace('https://s01.oss.sonatype.org:443/service/local/staging/deployByRepositoryId/compromcteam-1002',
-                  'https://s01.oss.sonatype.org/service/local/repositories/releases/content')
+    url = re.sub('https:\/\/s01\.oss\.sonatype\.org:443\/service\/local\/staging\/deployByRepositoryId\/compromcteam-\d+',
+                  'https://s01.oss.sonatype.org/service/local/repositories/releases/content',
+                 url)
 embed = {
     'author': {
         'name': 'New ' + ('Dev ' if is_dev else '') + 'Build Available!',
