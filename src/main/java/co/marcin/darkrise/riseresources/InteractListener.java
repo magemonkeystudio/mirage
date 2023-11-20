@@ -126,7 +126,7 @@ public class InteractListener implements Listener {
         RiseResourcesPlugin.getInstance().debug("Block broken and updated. Starting regeneration task.");
         this.plugin.getData().addRegenerationEntry(event.getBlock(), entry.get(), true);
 
-        RiseResourcesPlugin.getInstance().getLogger().info(String.format("Resource broken (%s) at (%d, %d, %d) by %s",
+        RiseResourcesPlugin.getInstance().debug(String.format("Resource broken (%s) at (%d, %d, %d) by %s",
                 entry.get().getKey().toString(),
                 event.getBlock().getX(),
                 event.getBlock().getY(),

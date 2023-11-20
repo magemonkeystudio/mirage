@@ -69,8 +69,7 @@ public class Data {
                         RiseResourcesPlugin.getInstance().debug("Registered entry for block type " + blockType + "'");
                         if (existing != null) {
                             RiseResourcesPlugin.getInstance()
-                                    .getLogger()
-                                    .warning("Overriding duplicate block type '" + blockType + "'");
+                                    .debug("Overriding duplicate block type '" + blockType + "'");
                         }
                     }
                 });
@@ -130,8 +129,7 @@ public class Data {
         RegenerationEntry e = new RegenerationEntry(block.getLocation(), entry);
         this.regenerationEntries.add(e);
         RiseResourcesPlugin.getInstance()
-                .getLogger()
-                .info("Will be regenerated at " + new Date(e.getRegenTime().longValue()));
+                .debug("Will be regenerated at " + new Date(e.getRegenTime().longValue()));
 
         if (runTask) {
             startRegenerationTask(e);
@@ -177,8 +175,7 @@ public class Data {
         }
 
         RiseResourcesPlugin.getInstance()
-                .getLogger()
-                .info(entry.getLocation().toString() + " is gonna be regenerated in " + (
+                .debug(entry.getLocation().toString() + " is gonna be regenerated in " + (
                         (entry.getRegenTime().longValue() - System.currentTimeMillis()) / 1000L) + " seconds");
         this.tasks.put(entry.getLocation(),
                 Bukkit.getScheduler().runTaskLater(RiseResourcesPlugin.getInstance(), entry::regenerate, (entry
@@ -193,8 +190,7 @@ public class Data {
         this.watchdog = Bukkit.getScheduler().runTaskTimerAsynchronously(RiseResourcesPlugin.getInstance(),
                 () -> this.regenerationEntries.stream().filter(RegenerationEntry::isOld)
                         .peek(e -> RiseResourcesPlugin.getInstance()
-                                .getLogger()
-                                .info("Watchdog: " + (System.currentTimeMillis() - e.getRegenTime()) / 1000L))
+                                .debug("Watchdog: " + (System.currentTimeMillis() - e.getRegenTime()) / 1000L))
                         .filter(e -> (System.currentTimeMillis() - e.getRegenTime()) / 1000L < watchdogInterval)
                         .peek(e -> RiseResourcesPlugin.getInstance().getLogger().info("Watchdog: " + e.getLocation()))
                         .forEach(this::startRegenerationTask), 0L, watchdogIntervalTicks);

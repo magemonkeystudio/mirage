@@ -26,7 +26,7 @@ public class RegenerationEntry implements ConfigurationSerializable {
         this.regenTime = (Long) map.get("regenTime");
         Validate.notNull(this.blockType);
         this.old = true;
-        RiseResourcesPlugin.getInstance().getLogger().info("RegenerationEntry %s, time: " + (new Date(this.regenTime.longValue())).toString());
+        RiseResourcesPlugin.getInstance().debug("RegenerationEntry %s, time: " + (new Date(this.regenTime.longValue())).toString());
     }
 
     public RegenerationEntry(Location location, Map.Entry<BlockType,DataEntry> entry) {
@@ -94,6 +94,6 @@ public class RegenerationEntry implements ConfigurationSerializable {
             this.location.getBlock().setBlockData(ageable);
         }
         RiseResourcesPlugin.getInstance().getData().getTasks().remove(getLocation());
-        RiseResourcesPlugin.getInstance().getLogger().info("Regenerated at: " + this.location);
+        RiseResourcesPlugin.getInstance().debug("Regenerated at: " + this.location);
     }
 }
