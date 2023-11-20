@@ -19,8 +19,8 @@ public class ItemsAdderBlockType extends BlockType {
             RiseResourcesPlugin.getInstance().debug("Block doesn't contain ItemsAdder data");
             return false;
         }
-        RiseResourcesPlugin.getInstance().debug("Found ItemsAdder data: "+customBlock.getId());
-        return customBlock.getId().equalsIgnoreCase(this.id);
+        RiseResourcesPlugin.getInstance().debug("Found ItemsAdder data: "+customBlock.getNamespacedID());
+        return customBlock.getNamespacedID().equalsIgnoreCase(this.id);
     }
 
     @Override

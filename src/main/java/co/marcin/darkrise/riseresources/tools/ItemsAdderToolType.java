@@ -14,6 +14,6 @@ public class ItemsAdderToolType extends ToolType {
     @Override
     public boolean isInstance(ItemStack itemStack) {
         CustomStack customStack = CustomStack.byItemStack(itemStack);
-        return customStack != null && customStack.getId().equals(this.id);
+        return customStack != null && customStack.getNamespacedID().equals(this.id);
     }
 }
