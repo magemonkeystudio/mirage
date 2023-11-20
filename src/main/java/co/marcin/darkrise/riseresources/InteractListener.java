@@ -111,7 +111,7 @@ public class InteractListener implements Listener {
             }
         }
         if(!dataEntry.cancelDrop()) {
-        	event.getBlock().breakNaturally(item);
+            entry.get().getKey().handleBreak(event);
         }
 
 //        item.setDurability((short) dataEntry.get().getToolDamage().intValue());

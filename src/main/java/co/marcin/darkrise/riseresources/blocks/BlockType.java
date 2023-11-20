@@ -7,6 +7,7 @@ import dev.lone.itemsadder.api.CustomBlock;
 import io.th0rgal.oraxen.api.OraxenBlocks;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -79,6 +80,10 @@ public abstract class BlockType {
     public abstract boolean isInstance(Block block);
 
     public abstract void place(Block block);
+
+    public void handleBreak(BlockBreakEvent event) {
+        event.getBlock().breakNaturally(event.getPlayer().getInventory().getItemInMainHand());
+    }
 
     @Override
     public String toString() {return this.getFullId();}
