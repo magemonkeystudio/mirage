@@ -57,6 +57,7 @@ entries: []
 #  - delay: 0
 #    as: CONSOLE
 #    cmd: say {player}
+#    chance: 100.0
 #  age: 7
 
 debug: false

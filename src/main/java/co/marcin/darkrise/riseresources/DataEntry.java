@@ -251,14 +251,17 @@ public class DataEntry {
         protected final Integer delay;
         protected final DataEntry.Command.As as;
         protected final String cmd;
+        protected final double chance;
 
         public Command(Map<String, Object> map) {
             this.delay = (Integer) map.getOrDefault("delay", 0);
             this.as = DataEntry.Command.As.valueOf((String) map.getOrDefault("as", "PLAYER"));
-            this.cmd = (String) map.getOrDefault("cmd", (Object) null);
+            this.cmd = (String) map.getOrDefault("cmd", null);
+            this.chance = Math.min(Math.max(0, Double.parseDouble(String.valueOf(map.getOrDefault("chance", 100)))*0.01), 1);
         }
 
         public void execute(Player player) {
+            if (this.chance <= Math.random()) return;
             Bukkit.getScheduler().runTaskLater(RiseResourcesPlugin.getInstance(), () -> {
                 Object sender;
                 if (this.as == DataEntry.Command.As.PLAYER) {
