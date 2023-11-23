@@ -3,6 +3,10 @@ package co.marcin.darkrise.riseresources;
 import co.marcin.darkrise.riseresources.blocks.BlockType;
 import co.marcin.darkrise.riseresources.rewards.Reward;
 import co.marcin.darkrise.riseresources.tools.ToolType;
+import com.sucy.skill.SkillAPI;
+import com.sucy.skill.api.player.PlayerClass;
+import com.sucy.skill.api.player.PlayerData;
+import com.sucy.skill.api.player.PlayerSkill;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -20,6 +24,8 @@ public class DataEntry {
     private final BlockType         breakMaterial;
     private final Long                   regenerationDelay;
     private final Set<ToolType>             tools   = new HashSet<>();
+    private       Map<String,Integer>       skills;
+    private       Map<String,Integer>       classes;
     private final List<Reward>              rewards = new ArrayList<>();
     private final List<Reward>              costs   = new ArrayList<>();
     private final TreeMap<Double,BlockType> chance  = new TreeMap<>();
@@ -78,6 +84,25 @@ public class DataEntry {
                 for (String toolString : stringList) {
                     ToolType toolType = ToolType.make(toolString);
                     if (toolType != null) {this.tools.add(toolType);}
+                }
+            }
+            if (Bukkit.getPluginManager().getPlugin("ProSkillAPI") != null) {
+                object = map.get("skillapi-requirements");
+                if (object instanceof Map) {
+                    Map<String,Object> skillsMap = ((Map<String, Object>) ((Map<?, ?>) object).get("skills"));
+                    if (skillsMap != null) {
+                        this.skills = new HashMap<>();
+                        for (Map.Entry<String,Object> entry : skillsMap.entrySet()) {
+                            this.skills.put(entry.getKey(), Integer.parseInt(String.valueOf(entry.getValue())));
+                        }
+                    }
+                    Map<String,Object> classesMap = ((Map<String, Object>) ((Map<?, ?>) object).get("classes"));
+                    if (classesMap != null) {
+                        this.classes = new HashMap<>();
+                        for (Map.Entry<String,Object> entry : classesMap.entrySet()) {
+                            this.classes.put(entry.getKey(), Integer.parseInt(String.valueOf(entry.getValue())));
+                        }
+                    }
                 }
             }
 
@@ -159,6 +184,26 @@ public class DataEntry {
             if (toolType.isInstance(itemStack)) {return true;}
         }
         return false;
+    }
+
+    public boolean meetsSkillAPIRequirements(Player player) {
+        if (this.skills == null) return true;
+        PlayerData playerData = SkillAPI.getPlayerData(player);
+        for (Map.Entry<String,Integer> entry : this.skills.entrySet()) {
+            PlayerSkill playerSkill = playerData.getSkill(entry.getKey());
+            if (playerSkill == null || playerSkill.getLevel() < entry.getValue()) {
+                RiseResourcesPlugin.getInstance().debug("Skill requirement not met: "+entry.getKey()+": "+entry.getValue());
+                return false;
+            }
+        }
+        for (Map.Entry<String,Integer> entry : this.classes.entrySet()) {
+            PlayerClass playerClass = playerData.getClasses().stream().filter(playerClass1 -> playerClass1.getData().getName().equalsIgnoreCase(entry.getKey())).findFirst().orElse(null);
+            if (playerClass == null || playerClass.getLevel() < entry.getValue()) {
+                RiseResourcesPlugin.getInstance().debug("Class requirement not met: "+entry.getKey()+": "+entry.getValue());
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

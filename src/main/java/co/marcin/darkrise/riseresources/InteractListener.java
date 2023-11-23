@@ -69,6 +69,8 @@ public class InteractListener implements Listener {
         }
         RiseResourcesPlugin.getInstance().debug("We're using the correct tool.");
 
+        if (!dataEntry.meetsSkillAPIRequirements(event.getPlayer())) return;
+
         Reward cost = dataEntry.applyCostsAndRewards(event.getPlayer(), true);
         if (cost != null) {
             RiseResourcesPlugin.getInstance().debug("Cannot afford "+cost.getAmount()+" "+cost.getName());
