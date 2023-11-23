@@ -20,6 +20,10 @@
             <id>sonatype</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
 
         <!-- Towny -->
         <repository>
@@ -31,6 +35,12 @@
         <repository>
             <id>factions</id>
             <url>https://ci.ender.zone/plugin/repository/everything/</url>
+        </repository>
+
+        <!-- GriefDefender -->
+        <repository>
+            <id>griefdefender</id>
+            <url>https://repo.glaremasters.me/repository/bloodshot</url>
         </repository>
     </repositories>
 
@@ -129,6 +139,31 @@
             <groupId>com.github.Zrips</groupId>
             <artifactId>Jobs</artifactId>
             <version>-613be4780e-1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bekvon.bukkit.residence</groupId>
+            <artifactId>Residence</artifactId>
+            <version>5.1.4.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/Residence5.1.4.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.TechFortress</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.espi</groupId>
+            <artifactId>protectionstones</artifactId>
+            <version>2.10.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.griefdefender</groupId>
+            <artifactId>api</artifactId>
+            <version>2.1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

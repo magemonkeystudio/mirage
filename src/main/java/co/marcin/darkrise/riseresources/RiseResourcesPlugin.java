@@ -38,6 +38,10 @@ public class RiseResourcesPlugin extends JavaPlugin {
     private boolean worldsBlacklisted;
     private boolean isTownyHookEnabled;
     private boolean isFactionsUUIDEnabled;
+    private boolean isResidenceEnabled;
+    private boolean isGriefPreventionEnabled;
+    private boolean isProtectionStonesEnabled;
+    private boolean isGriefDefenderEnabled;
     private LandsIntegration landsIntegration;
 
     private boolean debug = false;
@@ -62,9 +66,17 @@ public class RiseResourcesPlugin extends JavaPlugin {
         return this.isTownyHookEnabled;
     }
 
+    public boolean isResidenceEnabled() {return isResidenceEnabled;}
+
     public boolean isFactionsUUIDEnabled(){
         return this.isFactionsUUIDEnabled;
     }
+
+    public boolean isGriefPreventionEnabled() {return isGriefPreventionEnabled;}
+
+    public boolean isProtectionStonesEnabled() {return isProtectionStonesEnabled;}
+
+    public boolean isGriefDefenderEnabled() {return isGriefDefenderEnabled;}
 
     public LandsIntegration getLandsIntegration(){
         return landsIntegration;
@@ -88,7 +100,10 @@ public class RiseResourcesPlugin extends JavaPlugin {
         this.isWorldGuardEnabled = (getServer().getPluginManager().getPlugin("WorldGuard") != null);
         this.isTownyHookEnabled = (getConfig().getBoolean("towny") && getServer().getPluginManager().getPlugin("Towny") != null);
         this.isFactionsUUIDEnabled = (getConfig().getBoolean("factionsuuid") && getServer().getPluginManager().getPlugin("Factions") != null);
-
+        this.isResidenceEnabled = (getConfig().getBoolean("residence") && getServer().getPluginManager().getPlugin("Residence") != null);
+        this.isGriefPreventionEnabled = (getConfig().getBoolean("grief-prevention") && getServer().getPluginManager().getPlugin("GriefPrevention") != null);
+        this.isProtectionStonesEnabled = (getConfig().getBoolean("protections-stones") && getServer().getPluginManager().getPlugin("ProtectionStones") != null);
+        this.isGriefDefenderEnabled = (getConfig().getBoolean("grief-defender") && getServer().getPluginManager().getPlugin("GriefDefender") != null);
         if(getConfig().getBoolean("lands") && getServer().getPluginManager().getPlugin("Lands") != null){
             this.landsIntegration = new LandsIntegration(this);
         }else{

@@ -1,11 +1,21 @@
 package co.marcin.darkrise.riseresources;
 
 import co.marcin.darkrise.riseresources.blocks.BlockType;
+import co.marcin.darkrise.riseresources.hooks.FactionsUUIDHook;
+import co.marcin.darkrise.riseresources.hooks.LandsHook;
+import co.marcin.darkrise.riseresources.hooks.TownyHook;
+import co.marcin.darkrise.riseresources.hooks.WorldGuardHook;
 import co.marcin.darkrise.riseresources.rewards.Reward;
+import com.bekvon.bukkit.residence.api.ResidenceApi;
+import com.griefdefender.api.GriefDefender;
+import com.griefdefender.api.claim.Claim;
+import dev.espi.protectionstones.ProtectionStones;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -48,25 +58,7 @@ public class InteractListener implements Listener {
         }
         DataEntry dataEntry = entry.get().getValue();
 
-        if (this.plugin.isWorldGuardEnabled() && WorldGuardHook.isRegionDisabledAt(event.getBlock().getLocation())) {
-            RiseResourcesPlugin.getInstance().debug("This is in a WG disabled region.");
-            return;
-        }
-
-        if (this.plugin.isTownyHookEnabled() && TownyHook.isClaimed(event.getBlock().getLocation())) {
-            RiseResourcesPlugin.getInstance().debug("This is in a Towny claimed chunk.");
-            return;
-        }
-
-        if(this.plugin.isFactionsUUIDEnabled() && FactionsUUIDHook.isClaimed(event.getBlock().getLocation())){
-            RiseResourcesPlugin.getInstance().debug("This is in a FactionsUUID claimed chunk.");
-            return;
-        }
-
-        if(this.plugin.getLandsIntegration() != null && LandsHook.isClaimed(event.getBlock().getLocation())){
-            RiseResourcesPlugin.getInstance().debug("This is a Lands-Area");
-            return;
-        }
+        if (isProtected(event.getBlock())) return;
 
         RiseResourcesPlugin.getInstance().debug("This is a ProBlockRegen resource.");
 
@@ -132,6 +124,45 @@ public class InteractListener implements Listener {
                 event.getBlock().getY(),
                 event.getBlock().getZ(),
                 event.getPlayer().getName()));
+    }
+
+    private boolean isProtected(Block block) {
+        if (this.plugin.isWorldGuardEnabled() && WorldGuardHook.isRegionDisabledAt(block.getLocation())) {
+            RiseResourcesPlugin.getInstance().debug("This is in a WG disabled region.");
+            return true;
+        }
+        if (this.plugin.isTownyHookEnabled() && TownyHook.isClaimed(block.getLocation())) {
+            RiseResourcesPlugin.getInstance().debug("This is in a Towny claimed chunk.");
+            return true;
+        }
+        if(this.plugin.isFactionsUUIDEnabled() && FactionsUUIDHook.isClaimed(block.getLocation())) {
+            RiseResourcesPlugin.getInstance().debug("This is in a FactionsUUID claimed chunk.");
+            return true;
+        }
+        if(this.plugin.isResidenceEnabled() && ResidenceApi.getResidenceManager().getByLoc(block.getLocation()) != null) {
+            RiseResourcesPlugin.getInstance().debug("This is in a Residence claimed region.");
+            return true;
+        }
+        if(this.plugin.isGriefPreventionEnabled() && GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), false, null) != null) {
+            RiseResourcesPlugin.getInstance().debug("This is in a GriefPrevention claimed region.");
+            return true;
+        }
+        if(this.plugin.isProtectionStonesEnabled() && ProtectionStones.isProtectBlock(block)) {
+            RiseResourcesPlugin.getInstance().debug("This is in a ProtectionStones protected block.");
+            return true;
+        }
+        if (this.plugin.isGriefDefenderEnabled()) {
+            Claim claim = GriefDefender.getCore().getClaimAt(block.getLocation());
+            if (claim != null && !claim.isWilderness()) {
+                RiseResourcesPlugin.getInstance().debug("This is in a ProtectionStones protected block.");
+                return true;
+            }
+        }
+        if(this.plugin.getLandsIntegration() != null && LandsHook.isClaimed(block.getLocation())) {
+            RiseResourcesPlugin.getInstance().debug("This is a Lands-Area");
+            return true;
+        }
+        return false;
     }
 
 

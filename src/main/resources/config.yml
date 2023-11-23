@@ -1,5 +1,10 @@
 towny: true
 factionsuuid: true
+lands: true
+residence: true
+grief-prevention: true
+protections-stones: true
+grief-defender: true
 
 disabled-regions:
   # If set to true, block regen will only work in these regions

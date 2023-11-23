@@ -1,5 +1,6 @@
-package co.marcin.darkrise.riseresources;
+package co.marcin.darkrise.riseresources.hooks;
 
+import co.marcin.darkrise.riseresources.RiseResourcesPlugin;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.internal.platform.WorldGuardPlatform;

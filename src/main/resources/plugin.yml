@@ -10,6 +10,11 @@ softdepend:
 - ItemsAdder
 - ProRPGItems
 - Jobs
+- Lands
+- Residence
+- GriefPrevention
+- ProtectionStones
+- GriefDefender
 commands:
   resources:
     description: The base command for ProBlockRegen

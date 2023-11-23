@@ -1,4 +1,4 @@
-package co.marcin.darkrise.riseresources;
+package co.marcin.darkrise.riseresources.hooks;
 
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
