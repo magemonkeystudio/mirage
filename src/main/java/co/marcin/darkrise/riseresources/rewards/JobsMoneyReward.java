@@ -4,7 +4,7 @@ import com.gamingmesh.jobs.Jobs;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class JobsMoneyReward extends Reward {
+public class JobsMoneyReward extends AmountReward {
     public static final String NAME = "JOBS_money";
 
     public JobsMoneyReward(String fullString) {super(fullString);}

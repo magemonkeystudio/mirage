@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.NotNull;
 
-public class VaultMoneyReward extends Reward {
+public class VaultMoneyReward extends AmountReward {
     private static Economy economy;
     public static String NAME = "VAULT_money";
 

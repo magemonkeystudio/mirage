@@ -30,29 +30,22 @@ public abstract class Reward {
                 throw new IllegalStateException("Jobs is not enabled");
             }
             return new JobsPointsReward(string);
+        } else if (string.startsWith(SkillAPISkilLReward.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("ProSkillAPI")) {
+                throw new IllegalStateException("ProSkillAPI is not enabled");
+            }
+            return new SkillAPISkilLReward(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }
     }
 
-    protected final double amount; // Can be negative for costs
-
     public Reward(String fullString) {
-        String[] split = fullString.split(":");
-        if (split.length != 2 || !split[0].equals(this.getName())) {throw new IllegalArgumentException();}
-        try {
-            this.amount = Double.parseDouble(split[1]);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(split[1]+" is not a valid amount");
-        }
+        if (!fullString.startsWith(this.getName())) {throw new IllegalArgumentException();}
     }
 
     @NotNull
     public abstract String getName();
-
-    public final double getAmount() {return this.amount;}
-
-    public abstract boolean canAfford(@NotNull Player player);
 
     public abstract void apply(@NotNull Player player);
 

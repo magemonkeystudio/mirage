@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class JobsExpReward extends Reward {
+public class JobsExpReward extends AmountReward {
     public static final String NAME = "JOBS_exp";
 
     private final Job job;

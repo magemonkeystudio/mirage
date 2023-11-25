@@ -1,6 +1,7 @@
 package co.marcin.darkrise.riseresources;
 
 import co.marcin.darkrise.riseresources.blocks.BlockType;
+import co.marcin.darkrise.riseresources.rewards.AmountReward;
 import co.marcin.darkrise.riseresources.rewards.Reward;
 import co.marcin.darkrise.riseresources.tools.ToolType;
 import com.sucy.skill.SkillAPI;
@@ -27,7 +28,7 @@ public class DataEntry {
     private       Map<String,Integer>       skills;
     private       Map<String,Integer>       classes;
     private final List<Reward>              rewards = new ArrayList<>();
-    private final List<Reward>              costs   = new ArrayList<>();
+    private final List<AmountReward>        costs   = new ArrayList<>();
     private final TreeMap<Double,BlockType> chance  = new TreeMap<>();
     private final double totalWeight;
     private final List<DataEntry.Command> commands = new ArrayList();
@@ -149,10 +150,10 @@ public class DataEntry {
                 if (obj instanceof String) {
                     try {
                         Reward reward = Reward.make((String) obj);
-                        if (reward.getAmount() > 0) {
-                            this.rewards.add(reward);
+                        if (reward instanceof AmountReward && ((AmountReward) reward).getAmount() < 0) {
+                            this.costs.add((AmountReward) reward);
                         } else {
-                            this.costs.add(reward);
+                            this.rewards.add(reward);
                         }
                     } catch (IllegalArgumentException | IllegalStateException e) {
                         RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\": "+e.getMessage());
@@ -214,22 +215,22 @@ public class DataEntry {
      * @return the first cost detected that the Player can't afford, or null if they can afford everything.
      */
     @Nullable
-    public Reward applyCostsAndRewards(Player player, boolean apply) {
+    public AmountReward applyCostsAndRewards(Player player, boolean apply) {
         Lang lang = RiseResourcesPlugin.getInstance().getLang();
-        for (Reward cost : this.costs) {
+        for (AmountReward cost : this.costs) {
             if (!cost.canAfford(player)) {
                 lang.sendCannotAffordMessage(player, cost);
                 return cost;
             }
         }
         if (apply) {
-            for (Reward cost : this.costs) {
+            for (AmountReward cost : this.costs) {
                 cost.apply(player);
                 lang.sendDeductedMessage(player, cost);
             }
             for (Reward reward : this.rewards) {
                 reward.apply(player);
-                lang.sendRewardedMessage(player, reward);
+                if (reward instanceof AmountReward) lang.sendRewardedMessage(player, (AmountReward) reward);
             }
         }
         return null;

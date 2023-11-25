@@ -3,7 +3,7 @@ package co.marcin.darkrise.riseresources.rewards;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class VanillaExpReward extends Reward {
+public class VanillaExpReward extends AmountReward {
 
     public static String NAME = "exp";
 

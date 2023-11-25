@@ -35,7 +35,7 @@ public class Lang {
         if (value != null) {this.rewarded.put(clazz, ChatColor.translateAlternateColorCodes('&', value));}
     }
 
-    public void sendCannotAffordMessage(Player player, Reward reward) {
+    public void sendCannotAffordMessage(Player player, AmountReward reward) {
         String message = this.cannotAfford.get(reward.getClass());
         if (message != null && !message.equals("")) {
             message = message.replace("{amount}", String.valueOf(-reward.getAmount()));
@@ -47,7 +47,7 @@ public class Lang {
         }
     }
 
-    public void sendDeductedMessage(Player player, Reward reward) {
+    public void sendDeductedMessage(Player player, AmountReward reward) {
         String message = this.deducted.get(reward.getClass());
         if (message != null && !message.equals("")) {
             message = message.replace("{amount}", String.valueOf(-reward.getAmount()));
@@ -59,7 +59,7 @@ public class Lang {
         }
     }
 
-    public void sendRewardedMessage(Player player, Reward reward) {
+    public void sendRewardedMessage(Player player, AmountReward reward) {
         String message = this.rewarded.get(reward.getClass());
         if (message != null && !message.equals("")) {
             message = message.replace("{amount}", String.valueOf(reward.getAmount()));

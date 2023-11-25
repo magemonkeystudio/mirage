@@ -5,6 +5,7 @@ import co.marcin.darkrise.riseresources.hooks.FactionsUUIDHook;
 import co.marcin.darkrise.riseresources.hooks.LandsHook;
 import co.marcin.darkrise.riseresources.hooks.TownyHook;
 import co.marcin.darkrise.riseresources.hooks.WorldGuardHook;
+import co.marcin.darkrise.riseresources.rewards.AmountReward;
 import co.marcin.darkrise.riseresources.rewards.Reward;
 import com.bekvon.bukkit.residence.api.ResidenceApi;
 import com.griefdefender.api.GriefDefender;
@@ -71,7 +72,7 @@ public class InteractListener implements Listener {
 
         if (!dataEntry.meetsSkillAPIRequirements(event.getPlayer())) return;
 
-        Reward cost = dataEntry.applyCostsAndRewards(event.getPlayer(), true);
+        AmountReward cost = dataEntry.applyCostsAndRewards(event.getPlayer(), true);
         if (cost != null) {
             RiseResourcesPlugin.getInstance().debug("Cannot afford "+cost.getAmount()+" "+cost.getName());
             return;
