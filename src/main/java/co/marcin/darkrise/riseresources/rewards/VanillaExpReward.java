@@ -7,7 +7,15 @@ public class VanillaExpReward extends AmountReward {
 
     public static String NAME = "exp";
 
-    public VanillaExpReward(String fullString) {super(fullString);}
+    public VanillaExpReward(String fullString) {
+        super(fullString, parseAmount(fullString));
+    }
+
+    private static String parseAmount(String fullString) {
+        String[] split = fullString.split(":");
+        if (split.length != 2) return fullString;
+        return split[1];
+    }
 
     @Override
     @NotNull

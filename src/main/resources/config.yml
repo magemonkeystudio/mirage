@@ -52,8 +52,9 @@ entries: []
 #    - "exp:5"
 #    - "VAULT_money:-5"
 #    - "JOBS_money:5"
-#    - "JOBS_exp_miner:5"
-#    - "JOBS_:5"
+#    # "JOBS_exp:<job name>:<amount>"
+#    - "JOBS_exp:miner:5"
+#    - "JOBS_points:5"
 #    # "SKILLAPI_skill:<skill name>:<level>"
 #    - "SKILLAPI_skill:skill1:5"
 #  #If true, the mined/broken block/plant will be removed without drops,

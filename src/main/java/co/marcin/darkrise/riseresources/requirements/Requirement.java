@@ -18,6 +18,11 @@ public abstract class Requirement {
                 throw new IllegalStateException("ProSkillAPI is not enabled");
             }
             return new SkillAPIClassRequirement(string);
+        } else if (string.startsWith(JobsJobRequirement.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("Jobs")) {
+                throw new IllegalStateException("Jobs is not enabled");
+            }
+            return new JobsJobRequirement(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }

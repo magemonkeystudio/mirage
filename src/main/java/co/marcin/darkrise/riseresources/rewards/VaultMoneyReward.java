@@ -12,7 +12,7 @@ public class VaultMoneyReward extends AmountReward {
     public static String NAME = "VAULT_money";
 
     public VaultMoneyReward(String fullString) {
-        super(fullString);
+        super(fullString, parseAmount(fullString));
         if (VaultMoneyReward.economy == null && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
                 RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
                 if (rsp == null) {throw new IllegalStateException("No Vault Economy implementation found");}
@@ -21,6 +21,12 @@ public class VaultMoneyReward extends AmountReward {
         } else {
             throw new IllegalStateException("Vault is not enabled");
         }
+    }
+
+    private static String parseAmount(String fullString) {
+        String[] split = fullString.split(":");
+        if (split.length != 2) return fullString;
+        return split[1];
     }
 
     @Override

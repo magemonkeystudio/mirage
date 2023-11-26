@@ -8,14 +8,12 @@ public abstract class AmountReward extends Reward {
 
     public final double getAmount() {return this.amount;}
 
-    public AmountReward(String fullString) {
+    public AmountReward(String fullString, String amount) {
         super(fullString);
-        String[] split = fullString.split(":");
-        if (split.length != 2) {throw new IllegalArgumentException();}
         try {
-            this.amount = Double.parseDouble(split[1]);
+            this.amount = Double.parseDouble(amount);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(split[1]+" is not a valid amount");
+            throw new IllegalArgumentException(amount+" is not a valid amount");
         }
     }
 
