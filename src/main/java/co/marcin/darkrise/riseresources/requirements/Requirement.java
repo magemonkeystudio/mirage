@@ -23,6 +23,11 @@ public abstract class Requirement {
                 throw new IllegalStateException("Jobs is not enabled");
             }
             return new JobsJobRequirement(string);
+        } else if (string.startsWith(McMMOSkillRequirement.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("mcMMO")) {
+                throw new IllegalStateException("mcMMO is not enabled");
+            }
+            return new McMMOSkillRequirement(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }

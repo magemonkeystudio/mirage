@@ -41,9 +41,8 @@ entries: []
 #  #What the block will regenerate into. Weights need not add up to 1
 #  requirements:
 #  - "SKILLAPI_skill:skill1:5"
-#  - "SKILLAPI_skill:skill2:3"
-#  - "SKILLAPI_class:class1:5"
 #  - "SKILLAPI_class:class1:3"
+#  - "MCMMO_skill:acrobatics:7"
 #  chance:
 #    iron_ore: 0.5
 #    gold_ore: 0.25

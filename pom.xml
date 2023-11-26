@@ -42,6 +42,12 @@
             <id>griefdefender</id>
             <url>https://repo.glaremasters.me/repository/bloodshot</url>
         </repository>
+
+        <!-- mcMMO -->
+        <repository>
+            <id>neetgames</id>
+            <url>https://nexus.neetgames.com/repository/maven-snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -171,6 +177,22 @@
             <artifactId>proskillapi</artifactId>
             <version>1.1.12-R1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>2.1.218-SNAPSHOT</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sk89q.worldguard</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sk89q.worldedit</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
