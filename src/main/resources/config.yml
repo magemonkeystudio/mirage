@@ -39,15 +39,11 @@ entries: []
 #    message: "You need a helmet to break this!"
 #    damage: 1
 #  #What the block will regenerate into. Weights need not add up to 1
-#  skillapi-requirements:
-#    # Skill levels required to be able to break the block
-#    skills:
-#      skill1: 5
-#      skill2: 3
-#    # Class levels required to be able to break the bloc
-#    classes:
-#      class1: 5
-#      class2: 3
+#  requirements:
+#  - "SKILLAPI_skill:skill1:5"
+#  - "SKILLAPI_skill:skill2:3"
+#  - "SKILLAPI_class:class1:5"
+#  - "SKILLAPI_class:class1:3"
 #  chance:
 #    iron_ore: 0.5
 #    gold_ore: 0.25

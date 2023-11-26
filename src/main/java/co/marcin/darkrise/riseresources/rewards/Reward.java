@@ -30,11 +30,11 @@ public abstract class Reward {
                 throw new IllegalStateException("Jobs is not enabled");
             }
             return new JobsPointsReward(string);
-        } else if (string.startsWith(SkillAPISkilLReward.NAME)) {
+        } else if (string.startsWith(SkillAPISkillReward.NAME)) {
             if (!Bukkit.getPluginManager().isPluginEnabled("ProSkillAPI")) {
                 throw new IllegalStateException("ProSkillAPI is not enabled");
             }
-            return new SkillAPISkilLReward(string);
+            return new SkillAPISkillReward(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }

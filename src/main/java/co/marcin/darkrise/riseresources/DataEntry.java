@@ -1,6 +1,7 @@
 package co.marcin.darkrise.riseresources;
 
 import co.marcin.darkrise.riseresources.blocks.BlockType;
+import co.marcin.darkrise.riseresources.requirements.Requirement;
 import co.marcin.darkrise.riseresources.rewards.AmountReward;
 import co.marcin.darkrise.riseresources.rewards.Reward;
 import co.marcin.darkrise.riseresources.tools.ToolType;
@@ -21,21 +22,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataEntry {
-    private final Set<BlockType> materials = new HashSet<>();
-    private final BlockType         breakMaterial;
-    private final Long                   regenerationDelay;
-    private final Set<ToolType>             tools   = new HashSet<>();
-    private       Map<String,Integer>       skills;
-    private       Map<String,Integer>       classes;
-    private final List<Reward>              rewards = new ArrayList<>();
-    private final List<AmountReward>        costs   = new ArrayList<>();
-    private final TreeMap<Double,BlockType> chance  = new TreeMap<>();
-    private final double totalWeight;
-    private final List<DataEntry.Command> commands = new ArrayList();
-    private String toolMessage;
-    private int toolDamage = 0;
-    private Integer age;
-    private boolean cancelDrop;
+    private final Set<BlockType>            materials         = new HashSet<>();
+    private final BlockType                 breakMaterial;
+    private final Long                      regenerationDelay;
+    private final Set<ToolType>             tools             = new HashSet<>();
+    private final List<Requirement>         requirements      = new ArrayList<>();
+    private final List<Reward>              rewards           = new ArrayList<>();
+    private final List<AmountReward>        costs             = new ArrayList<>();
+    private final TreeMap<Double,BlockType> chance            = new TreeMap<>();
+    private final double                    totalWeight;
+    private final List<DataEntry.Command>   commands          = new ArrayList();
+    private       String                    toolMessage;
+    private       int                       toolDamage        = 0;
+    private       Integer                   age;
+    private       boolean                   cancelDrop;
     
     public DataEntry(Map<String, Object> map) {
         Validate.notNull(map);
@@ -87,23 +87,28 @@ public class DataEntry {
                     if (toolType != null) {this.tools.add(toolType);}
                 }
             }
-            if (Bukkit.getPluginManager().getPlugin("ProSkillAPI") != null) {
-                object = map.get("skillapi-requirements");
-                if (object instanceof Map) {
-                    Map<String,Object> skillsMap = ((Map<String, Object>) ((Map<?, ?>) object).get("skills"));
-                    if (skillsMap != null) {
-                        this.skills = new HashMap<>();
-                        for (Map.Entry<String,Object> entry : skillsMap.entrySet()) {
-                            this.skills.put(entry.getKey(), Integer.parseInt(String.valueOf(entry.getValue())));
-                        }
+
+            object = map.get("requirements");
+            if (object instanceof List) {
+                List<?> list = (List<?>) object;
+                for (Object obj : list) {
+                    try {
+                        this.requirements.add(Requirement.make((String) obj));
+                    } catch (IllegalArgumentException | IllegalStateException | ClassCastException e) {
+                        RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\": "+e.getMessage());
+                    } catch (Exception e) {
+                        RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\":");
+                        e.printStackTrace();
                     }
-                    Map<String,Object> classesMap = ((Map<String, Object>) ((Map<?, ?>) object).get("classes"));
-                    if (classesMap != null) {
-                        this.classes = new HashMap<>();
-                        for (Map.Entry<String,Object> entry : classesMap.entrySet()) {
-                            this.classes.put(entry.getKey(), Integer.parseInt(String.valueOf(entry.getValue())));
-                        }
-                    }
+                }
+            } else if (object instanceof String) {
+                try {
+                    this.requirements.add(Requirement.make((String) object));
+                } catch (IllegalArgumentException | IllegalStateException | ClassCastException e) {
+                    RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+object+"\": "+e.getMessage());
+                } catch (Exception e) {
+                    RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+object+"\":");
+                    e.printStackTrace();
                 }
             }
 
@@ -187,20 +192,10 @@ public class DataEntry {
         return false;
     }
 
-    public boolean meetsSkillAPIRequirements(Player player) {
-        if (this.skills == null) return true;
-        PlayerData playerData = SkillAPI.getPlayerData(player);
-        for (Map.Entry<String,Integer> entry : this.skills.entrySet()) {
-            PlayerSkill playerSkill = playerData.getSkill(entry.getKey());
-            if (playerSkill == null || playerSkill.getLevel() < entry.getValue()) {
-                RiseResourcesPlugin.getInstance().debug("Skill requirement not met: "+entry.getKey()+": "+entry.getValue());
-                return false;
-            }
-        }
-        for (Map.Entry<String,Integer> entry : this.classes.entrySet()) {
-            PlayerClass playerClass = playerData.getClasses().stream().filter(playerClass1 -> playerClass1.getData().getName().equalsIgnoreCase(entry.getKey())).findFirst().orElse(null);
-            if (playerClass == null || playerClass.getLevel() < entry.getValue()) {
-                RiseResourcesPlugin.getInstance().debug("Class requirement not met: "+entry.getKey()+": "+entry.getValue());
+    public boolean meetsRequirements(Player player) {
+        for (Requirement requirement : this.requirements) {
+            if (!requirement.meets(player)) {
+                RiseResourcesPlugin.getInstance().debug("Requirement not met: "+requirement);
                 return false;
             }
         }
