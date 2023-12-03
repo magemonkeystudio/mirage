@@ -8,7 +8,9 @@ public abstract class Requirement {
     private final String fullString;
 
     public static Requirement make(String string) {
-        if (string.startsWith(SkillAPISkillRequirement.NAME)) {
+        if (string.startsWith(EnchantmentRequirement.NAME)) {
+            return new EnchantmentRequirement(string);
+        } else if (string.startsWith(SkillAPISkillRequirement.NAME)) {
             if (!Bukkit.getPluginManager().isPluginEnabled("ProSkillAPI")) {
                 throw new IllegalStateException("ProSkillAPI is not enabled");
             }
