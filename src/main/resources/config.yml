@@ -57,6 +57,8 @@ entries: []
 #    - "JOBS_points:5"
 #    # "SKILLAPI_skill:<skill name>:<level>"
 #    - "SKILLAPI_skill:skill1:5"
+#    # "SKILLAPI_exp:<class group>:<level>"
+#    - "SKILLAPI_exp:class:5"
 #  #If true, the mined/broken block/plant will be removed without drops,
 #  #so that you can add custom drops with commands
 #  cancel-drop: true

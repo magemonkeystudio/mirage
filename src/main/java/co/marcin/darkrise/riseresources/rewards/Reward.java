@@ -35,6 +35,11 @@ public abstract class Reward {
                 throw new IllegalStateException("ProSkillAPI is not enabled");
             }
             return new SkillAPISkillReward(string);
+        } else if (string.startsWith(SkillAPIExpReward.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("ProSkillAPI")) {
+                throw new IllegalStateException("ProSkillAPI is not enabled");
+            }
+            return new SkillAPIExpReward(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }
