@@ -126,7 +126,7 @@
         <dependency>
             <groupId>com.promcteam</groupId>
             <artifactId>promccore</artifactId>
-            <version>1.0.4-R0.13-SNAPSHOT</version>
+            <version>1.0.6-R0.4-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
