@@ -44,6 +44,7 @@ entries: []
 #  - "SKILLAPI_skill:skill1:5"
 #  - "SKILLAPI_class:class1:3"
 #  - "MCMMO_skill:acrobatics:7"
+#  - "RPGCRAFTING_profession:smelting:2"
 #  chance:
 #    iron_ore: 0.5
 #    gold_ore: 0.25

@@ -16,6 +16,7 @@ softdepend:
 - GriefPrevention
 - ProtectionStones
 - GriefDefender
+- ProRPGCrafting
 commands:
   resources:
     description: The base command for ProBlockRegen

@@ -30,13 +30,18 @@ public abstract class Requirement {
                 throw new IllegalStateException("mcMMO is not enabled");
             }
             return new McMMOSkillRequirement(string);
+        } else if (string.startsWith(RPGCraftingProfessionRequirement.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("ProRPGCrafting")) {
+                throw new IllegalStateException("ProRPGCrafting is not enabled");
+            }
+            return new RPGCraftingProfessionRequirement(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }
     }
 
     public Requirement(String fullString) {
-        if (!fullString.startsWith(this.getName())) {throw new IllegalArgumentException();}
+        if (!fullString.split(":")[0].equalsIgnoreCase(this.getName())) {throw new IllegalArgumentException();}
         this.fullString = fullString;
     }
 
