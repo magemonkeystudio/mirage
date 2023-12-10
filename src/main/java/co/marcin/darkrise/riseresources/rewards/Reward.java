@@ -40,6 +40,11 @@ public abstract class Reward {
                 throw new IllegalStateException("ProSkillAPI is not enabled");
             }
             return new SkillAPIExpReward(string);
+        } else if (string.startsWith(McMMOExperienceReward.NAME)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("mcMMO")) {
+                throw new IllegalStateException("mcMMO is not enabled");
+            }
+            return new McMMOExperienceReward(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }

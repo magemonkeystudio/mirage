@@ -17,6 +17,7 @@ softdepend:
 - ProtectionStones
 - GriefDefender
 - ProRPGCrafting
+- mcMMO
 commands:
   resources:
     description: The base command for ProBlockRegen

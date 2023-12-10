@@ -42,7 +42,7 @@ public class JobsExpReward extends AmountReward {
     public void apply(@NotNull Player player) {
         JobProgression job = Jobs.getPlayerManager().getJobsPlayer(player).getJobProgression(this.job);
         if (job == null) {
-            RiseResourcesPlugin.getInstance().debug("Failed to execute reward \""+JobsExpReward.NAME+'_'+this.job.getName()+':'+this.amount+"\": Player \""+player.getName()+"\" does not belong to this job");
+            RiseResourcesPlugin.getInstance().debug("Failed to execute reward \""+JobsExpReward.NAME+':'+this.job.getName()+':'+this.amount+"\": Player \""+player.getName()+"\" does not belong to this job");
             return;
         }
         if (this.amount >= 0) {
