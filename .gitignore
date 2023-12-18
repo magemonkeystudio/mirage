@@ -3,3 +3,5 @@ target/
 *.iml
 /*.idea/
 gh-pages
+log.txt
+toolchains.xml
