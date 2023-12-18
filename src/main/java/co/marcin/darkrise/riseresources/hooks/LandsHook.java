@@ -1,5 +1,6 @@
-package co.marcin.darkrise.riseresources;
+package co.marcin.darkrise.riseresources.hooks;
 
+import co.marcin.darkrise.riseresources.RiseResourcesPlugin;
 import me.angeschossen.lands.api.land.Area;
 import org.bukkit.Location;
 

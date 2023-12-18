@@ -4,10 +4,18 @@ import com.gamingmesh.jobs.Jobs;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class JobsMoneyReward extends Reward {
+public class JobsMoneyReward extends AmountReward {
     public static final String NAME = "JOBS_money";
 
-    public JobsMoneyReward(String fullString) {super(fullString);}
+    public JobsMoneyReward(String fullString) {
+        super(fullString, parseAmount(fullString));
+    }
+
+    private static String parseAmount(String fullString) {
+        String[] split = fullString.split(":");
+        if (split.length != 2) return fullString;
+        return split[1];
+    }
 
     @Override
     @NotNull

@@ -1,8 +1,14 @@
 package co.marcin.darkrise.riseresources;
 
 import co.marcin.darkrise.riseresources.blocks.BlockType;
+import co.marcin.darkrise.riseresources.requirements.Requirement;
+import co.marcin.darkrise.riseresources.rewards.AmountReward;
 import co.marcin.darkrise.riseresources.rewards.Reward;
 import co.marcin.darkrise.riseresources.tools.ToolType;
+import com.sucy.skill.SkillAPI;
+import com.sucy.skill.api.player.PlayerClass;
+import com.sucy.skill.api.player.PlayerData;
+import com.sucy.skill.api.player.PlayerSkill;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -16,19 +22,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataEntry {
-    private final Set<BlockType> materials = new HashSet<>();
-    private final BlockType         breakMaterial;
-    private final Long                   regenerationDelay;
-    private final Set<ToolType>             tools   = new HashSet<>();
-    private final List<Reward>              rewards = new ArrayList<>();
-    private final List<Reward>              costs   = new ArrayList<>();
-    private final TreeMap<Double,BlockType> chance  = new TreeMap<>();
-    private final double totalWeight;
-    private final List<DataEntry.Command> commands = new ArrayList();
-    private String toolMessage;
-    private int toolDamage = 0;
-    private Integer age;
-    private boolean cancelDrop;
+    private final Set<BlockType>            materials         = new HashSet<>();
+    private final BlockType                 breakMaterial;
+    private final Long                      regenerationDelay;
+    private final Set<ToolType>             tools             = new HashSet<>();
+    private final List<Requirement>         requirements      = new ArrayList<>();
+    private final List<Reward>              rewards           = new ArrayList<>();
+    private final List<AmountReward>        costs             = new ArrayList<>();
+    private final TreeMap<Double,BlockType> chance            = new TreeMap<>();
+    private final double                    totalWeight;
+    private final List<DataEntry.Command>   commands          = new ArrayList();
+    private       String                    toolMessage;
+    private       int                       toolDamage        = 0;
+    private       Integer                   age;
+    private       boolean                   cancelDrop;
     
     public DataEntry(Map<String, Object> map) {
         Validate.notNull(map);
@@ -81,6 +88,30 @@ public class DataEntry {
                 }
             }
 
+            object = map.get("requirements");
+            if (object instanceof List) {
+                List<?> list = (List<?>) object;
+                for (Object obj : list) {
+                    try {
+                        this.requirements.add(Requirement.make((String) obj));
+                    } catch (IllegalArgumentException | IllegalStateException | ClassCastException e) {
+                        RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\": "+e.getMessage());
+                    } catch (Exception e) {
+                        RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\":");
+                        e.printStackTrace();
+                    }
+                }
+            } else if (object instanceof String) {
+                try {
+                    this.requirements.add(Requirement.make((String) object));
+                } catch (IllegalArgumentException | IllegalStateException | ClassCastException e) {
+                    RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+object+"\": "+e.getMessage());
+                } catch (Exception e) {
+                    RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+object+"\":");
+                    e.printStackTrace();
+                }
+            }
+
             this.toolMessage = ChatColor.translateAlternateColorCodes('&', (String) tools.getOrDefault("message", null));
             this.toolDamage = (Integer) tools.getOrDefault("damage", 0);
         }
@@ -124,10 +155,10 @@ public class DataEntry {
                 if (obj instanceof String) {
                     try {
                         Reward reward = Reward.make((String) obj);
-                        if (reward.getAmount() > 0) {
-                            this.rewards.add(reward);
+                        if (reward instanceof AmountReward && ((AmountReward) reward).getAmount() < 0) {
+                            this.costs.add((AmountReward) reward);
                         } else {
-                            this.costs.add(reward);
+                            this.rewards.add(reward);
                         }
                     } catch (IllegalArgumentException | IllegalStateException e) {
                         RiseResourcesPlugin.getInstance().getLogger().warning("Ignoring invalid reward/cost \""+obj+"\": "+e.getMessage());
@@ -161,6 +192,16 @@ public class DataEntry {
         return false;
     }
 
+    public boolean meetsRequirements(Player player) {
+        for (Requirement requirement : this.requirements) {
+            if (!requirement.meets(player)) {
+                RiseResourcesPlugin.getInstance().debug("Requirement not met: "+requirement);
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Checks if the provided Player can afford the costs of mining a block.
      * @param player The Player who attempted to mine the block
@@ -169,22 +210,22 @@ public class DataEntry {
      * @return the first cost detected that the Player can't afford, or null if they can afford everything.
      */
     @Nullable
-    public Reward applyCostsAndRewards(Player player, boolean apply) {
+    public AmountReward applyCostsAndRewards(Player player, boolean apply) {
         Lang lang = RiseResourcesPlugin.getInstance().getLang();
-        for (Reward cost : this.costs) {
+        for (AmountReward cost : this.costs) {
             if (!cost.canAfford(player)) {
                 lang.sendCannotAffordMessage(player, cost);
                 return cost;
             }
         }
         if (apply) {
-            for (Reward cost : this.costs) {
+            for (AmountReward cost : this.costs) {
                 cost.apply(player);
                 lang.sendDeductedMessage(player, cost);
             }
             for (Reward reward : this.rewards) {
                 reward.apply(player);
-                lang.sendRewardedMessage(player, reward);
+                if (reward instanceof AmountReward) lang.sendRewardedMessage(player, (AmountReward) reward);
             }
         }
         return null;
@@ -251,14 +292,17 @@ public class DataEntry {
         protected final Integer delay;
         protected final DataEntry.Command.As as;
         protected final String cmd;
+        protected final double chance;
 
         public Command(Map<String, Object> map) {
             this.delay = (Integer) map.getOrDefault("delay", 0);
             this.as = DataEntry.Command.As.valueOf((String) map.getOrDefault("as", "PLAYER"));
-            this.cmd = (String) map.getOrDefault("cmd", (Object) null);
+            this.cmd = (String) map.getOrDefault("cmd", null);
+            this.chance = Math.min(Math.max(0, Double.parseDouble(String.valueOf(map.getOrDefault("chance", 100)))*0.01), 1);
         }
 
         public void execute(Player player) {
+            if (this.chance <= Math.random()) return;
             Bukkit.getScheduler().runTaskLater(RiseResourcesPlugin.getInstance(), () -> {
                 Object sender;
                 if (this.as == DataEntry.Command.As.PLAYER) {

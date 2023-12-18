@@ -1,4 +1,4 @@
-package co.marcin.darkrise.riseresources;
+package co.marcin.darkrise.riseresources.hooks;
 
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;

@@ -1,5 +1,10 @@
 towny: true
 factionsuuid: true
+lands: true
+residence: true
+grief-prevention: true
+protections-stones: true
+grief-defender: true
 
 disabled-regions:
   # If set to true, block regen will only work in these regions
@@ -34,6 +39,12 @@ entries: []
 #    message: "You need a helmet to break this!"
 #    damage: 1
 #  #What the block will regenerate into. Weights need not add up to 1
+#  requirements:
+#  - "enchantment:silk_touch:1"
+#  - "SKILLAPI_skill:skill1:5"
+#  - "SKILLAPI_class:class1:3"
+#  - "MCMMO_skill:acrobatics:7"
+#  - "RPGCRAFTING_profession:smelting:2"
 #  chance:
 #    iron_ore: 0.5
 #    gold_ore: 0.25
@@ -42,8 +53,13 @@ entries: []
 #    - "exp:5"
 #    - "VAULT_money:-5"
 #    - "JOBS_money:5"
-#    - "JOBS_exp_miner:5"
-#    - "JOBS_:5"
+#    # "JOBS_exp:<job name>:<amount>"
+#    - "JOBS_exp:miner:5"
+#    - "JOBS_points:5"
+#    # "SKILLAPI_skill:<skill name>:<level>"
+#    - "SKILLAPI_skill:skill1:5"
+#    # "SKILLAPI_exp:<class group>:<level>"
+#    - "SKILLAPI_exp:class:5"
 #  #If true, the mined/broken block/plant will be removed without drops,
 #  #so that you can add custom drops with commands
 #  cancel-drop: true
@@ -52,6 +68,7 @@ entries: []
 #  - delay: 0
 #    as: CONSOLE
 #    cmd: say {player}
+#    chance: 100.0
 #  age: 7
 
 debug: false

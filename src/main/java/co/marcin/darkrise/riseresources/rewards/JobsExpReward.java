@@ -7,29 +7,24 @@ import com.gamingmesh.jobs.container.JobProgression;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
-public class JobsExpReward extends Reward {
+public class JobsExpReward extends AmountReward {
     public static final String NAME = "JOBS_exp";
 
     private final Job job;
 
     public JobsExpReward(String fullString) {
-        super(removeJob(fullString));
-        String jobId = fullString.split(":")[0].substring((JobsExpReward.NAME+'_').length());
+        super(fullString, parseAmount(fullString));
+        String jobId = fullString.split(":")[1];
         this.job = Jobs.getJob(jobId);
         if (this.job == null) {
             throw new IllegalArgumentException("Unknown job \""+jobId+"\"");
         }
     }
 
-    private static String removeJob(String fullString) {
+    private static String parseAmount(String fullString) {
         String[] split = fullString.split(":");
-        if (split.length != 2) {return fullString;} // Purposefully cause exception in super constructor
-        if (!split[0].startsWith(JobsExpReward.NAME+'_') || split[0].length() <= (JobsExpReward.NAME+'_').length()) {
-            throw new IllegalArgumentException("A job name must be specified, like \"JOBS_exp_miner:5\"");
-        }
-        return JobsExpReward.NAME+':'+split[1];
+        if (split.length != 3) return fullString;
+        return split[2];
     }
 
     @Override
@@ -47,7 +42,7 @@ public class JobsExpReward extends Reward {
     public void apply(@NotNull Player player) {
         JobProgression job = Jobs.getPlayerManager().getJobsPlayer(player).getJobProgression(this.job);
         if (job == null) {
-            RiseResourcesPlugin.getInstance().debug("Failed to execute reward \""+JobsExpReward.NAME+'_'+this.job.getName()+':'+this.amount+"\": Player \""+player.getName()+"\" does not belong to this job");
+            RiseResourcesPlugin.getInstance().debug("Failed to execute reward \""+JobsExpReward.NAME+':'+this.job.getName()+':'+this.amount+"\": Player \""+player.getName()+"\" does not belong to this job");
             return;
         }
         if (this.amount >= 0) {

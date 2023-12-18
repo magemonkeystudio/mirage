@@ -8,8 +8,16 @@ softdepend:
 - ProMCUtilities
 - Oraxen
 - ItemsAdder
+- ProSkillApi
 - ProRPGItems
 - Jobs
+- Lands
+- Residence
+- GriefPrevention
+- ProtectionStones
+- GriefDefender
+- ProRPGCrafting
+- mcMMO
 commands:
   resources:
     description: The base command for ProBlockRegen
