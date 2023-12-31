@@ -28,3 +28,7 @@ or snapshots through Sonatype.
     <version>${project.version}</version>
 </dependency>
 ```
+### A huge thanks to our contributors
+<a href="https://github.com/promcteam/problockregen/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=promcteam/problockregen" />
+</a>
