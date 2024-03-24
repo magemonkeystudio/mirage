@@ -26,18 +26,18 @@ public abstract class ToolType {
 
     @Nullable
     public static ToolType make(String id) {
-        if (id.startsWith(ProMCUtilitiesToolType.PREFIX)) {
-            if (!Bukkit.getPluginManager().isPluginEnabled("ProMCUtilities")) {
+        if (id.startsWith(SapphireToolType.PREFIX)) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("Sapphire")) {
                 Mimic.getInstance()
                         .getLogger()
-                        .warning("Ignoring allowed tool \"" + id + "\", ProMCUtilities is not enabled");
+                        .warning("Ignoring allowed tool \"" + id + "\", Sapphire is not enabled");
                 return null;
             }
-            if (Sapphire.getItemsRegistry().getItemById(id.substring(ProMCUtilitiesToolType.PREFIX.length())) == null) {
-                Mimic.getInstance().getLogger().warning("Ignoring unknown ProMCUtilities tool \"" + id + '"');
+            if (Sapphire.getItemsRegistry().getItemById(id.substring(SapphireToolType.PREFIX.length())) == null) {
+                Mimic.getInstance().getLogger().warning("Ignoring unknown Sapphire tool \"" + id + '"');
                 return null;
             }
-            return canonize(new ProMCUtilitiesToolType(id));
+            return canonize(new SapphireToolType(id));
         } else if (id.startsWith(OraxenToolType.PREFIX)) {
             if (!Bukkit.getPluginManager().isPluginEnabled("Oraxen")) {
                 Mimic.getInstance().getLogger().warning("Ignoring allowed tool \"" + id + "\", Oraxen is not enabled");

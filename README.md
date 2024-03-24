@@ -1,6 +1,6 @@
-[![Build](https://github.com/promcteam/problockregen/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
-[![Build](https://github.com/promcteam/problockregen/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
-[![Build](https://github.com/promcteam/problockregen/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://github.com/promcteam/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mimic/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mimic/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mimic/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://github.com/promcteam/promccore/packages/1203744)
 
 # Mimic
 
@@ -34,6 +34,6 @@ or snapshots through Sonatype.
 
 ### A huge thanks to our contributors
 
-<a href="https://github.com/promcteam/problockregen/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=promcteam/problockregen" />
+<a href="https://github.com/promcteam/mimic/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=promcteam/mimic" />
 </a>

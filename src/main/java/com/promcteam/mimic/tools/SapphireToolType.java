@@ -4,10 +4,10 @@ import com.promcteam.sapphire.Sapphire;
 import me.travja.darkrise.core.item.DarkRiseItem;
 import org.bukkit.inventory.ItemStack;
 
-public class ProMCUtilitiesToolType extends ToolType {
-    public static final String PREFIX = "PROMCU_";
+public class SapphireToolType extends ToolType {
+    public static final String PREFIX = "SAPPHIRE_";
 
-    ProMCUtilitiesToolType(String fullId) {super(fullId);}
+    SapphireToolType(String fullId) {super(fullId);}
 
     @Override
     public String getPrefix() {return PREFIX;}
