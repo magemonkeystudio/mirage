@@ -1,25 +1,25 @@
 name: ${project.name}
-main: co.marcin.darkrise.riseresources.RiseResourcesPlugin
+main: com.promcteam.mimic.Mimic
 version: ${project.version}
-authors: [Travja, GoFlish, Sentropic]
+authors: [ Travja, GoFlish, Sentropic ]
 api-version: 1.13
 softdepend:
-- WorldGuard
-- ProMCUtilities
-- Oraxen
-- ItemsAdder
-- ProSkillApi
-- ProRPGItems
-- Jobs
-- Lands
-- Residence
-- GriefPrevention
-- ProtectionStones
-- GriefDefender
-- ProRPGCrafting
-- mcMMO
+  - WorldGuard
+  - ProMCUtilities
+  - Oraxen
+  - ItemsAdder
+  - Fabled
+  - Divinity
+  - Jobs
+  - Lands
+  - Residence
+  - GriefPrevention
+  - ProtectionStones
+  - GriefDefender
+  - ProRPGCrafting
+  - mcMMO
 commands:
-  resources:
-    description: The base command for ProBlockRegen
+  mimic:
+    description: The base command for Mimic
     usage: /<command> reload
-    aliases: [blockregen, problockregen, pbr]
+    aliases: [ resources, blockregen, problockregen, pbr ]

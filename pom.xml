@@ -11,10 +11,9 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.promcteam</groupId>
-    <artifactId>problockregen</artifactId>
-    <version>1.1.5-R0.1-SNAPSHOT</version>
-    <name>ProBlockRegen</name>
+    <artifactId>mimic</artifactId>
+    <version>1.0.0-R0.1-SNAPSHOT</version>
+    <name>Mimic</name>
 
     <repositories>
         <repository>
@@ -61,8 +60,8 @@
 
         <dependency>
             <groupId>com.promcteam</groupId>
-            <artifactId>promcutilities</artifactId>
-            <version>1.0.1-R0.0-SNAPSHOT</version>
+            <artifactId>sapphire</artifactId>
+            <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -120,20 +119,20 @@
         </dependency>
         <dependency>
             <groupId>com.promcteam</groupId>
-            <artifactId>prorpgitems</artifactId>
-            <version>1.0.4-R0.29-SNAPSHOT</version>
+            <artifactId>divinity</artifactId>
+            <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.promcteam</groupId>
-            <artifactId>promccore</artifactId>
-            <version>1.0.6-R0.4-SNAPSHOT</version>
+            <artifactId>codex</artifactId>
+            <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.promcteam</groupId>
-            <artifactId>crafting</artifactId>
-            <version>1.2.2-R0.1-SNAPSHOT</version>
+            <artifactId>fusion</artifactId>
+            <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -181,8 +180,8 @@
         </dependency>
         <dependency>
             <groupId>com.promcteam</groupId>
-            <artifactId>proskillapi</artifactId>
-            <version>1.1.12-R1</version>
+            <artifactId>fabled</artifactId>
+            <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
