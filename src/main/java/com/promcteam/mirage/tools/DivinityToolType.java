@@ -1,0 +1,19 @@
+package com.promcteam.mirage.tools;
+
+import com.promcteam.divinity.stats.items.ItemStats;
+import org.bukkit.inventory.ItemStack;
+
+public class DivinityToolType extends ToolType {
+    public static final String PREFIX = "DIVINITY_";
+
+    DivinityToolType(String fullId) {super(fullId);}
+
+    @Override
+    public String getPrefix() {return PREFIX;}
+
+    @Override
+    public boolean isInstance(ItemStack itemStack) {
+        String itemId = ItemStats.getId(itemStack);
+        return itemId != null && itemId.equals(this.id);
+    }
+}
