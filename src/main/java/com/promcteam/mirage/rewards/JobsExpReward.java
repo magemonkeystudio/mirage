@@ -1,9 +1,9 @@
 package com.promcteam.mirage.rewards;
 
-import com.promcteam.mirage.Mirage;
 import com.gamingmesh.jobs.Jobs;
 import com.gamingmesh.jobs.container.Job;
 import com.gamingmesh.jobs.container.JobProgression;
+import com.promcteam.mirage.Mirage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,11 +1,11 @@
 package com.promcteam.mirage.rewards;
 
-import com.promcteam.mirage.Mirage;
 import com.gmail.nossr50.datatypes.experience.XPGainReason;
 import com.gmail.nossr50.datatypes.experience.XPGainSource;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.player.UserManager;
+import com.promcteam.mirage.Mirage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,17 +1,17 @@
 package com.promcteam.mirage.tools;
 
+import com.promcteam.codex.modules.IModule;
 import com.promcteam.divinity.Divinity;
+import com.promcteam.divinity.modules.ModuleItem;
+import com.promcteam.divinity.modules.api.QModuleDrop;
 import com.promcteam.mirage.Mirage;
 import com.promcteam.sapphire.Sapphire;
 import dev.lone.itemsadder.api.CustomStack;
 import io.th0rgal.oraxen.api.OraxenItems;
-import com.promcteam.codex.modules.IModule;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import com.promcteam.divinity.modules.ModuleItem;
-import com.promcteam.divinity.modules.api.QModuleDrop;
 
 import java.util.HashSet;
 import java.util.Objects;

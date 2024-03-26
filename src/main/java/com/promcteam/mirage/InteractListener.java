@@ -1,14 +1,14 @@
 package com.promcteam.mirage;
 
+import com.bekvon.bukkit.residence.api.ResidenceApi;
+import com.griefdefender.api.GriefDefender;
+import com.griefdefender.api.claim.Claim;
 import com.promcteam.mirage.blocks.BlockType;
 import com.promcteam.mirage.hooks.FactionsUUIDHook;
 import com.promcteam.mirage.hooks.LandsHook;
 import com.promcteam.mirage.hooks.TownyHook;
 import com.promcteam.mirage.hooks.WorldGuardHook;
 import com.promcteam.mirage.rewards.AmountReward;
-import com.bekvon.bukkit.residence.api.ResidenceApi;
-import com.griefdefender.api.GriefDefender;
-import com.griefdefender.api.claim.Claim;
 import dev.espi.protectionstones.ProtectionStones;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Bukkit;

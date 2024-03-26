@@ -1,7 +1,7 @@
 package com.promcteam.mirage.tools;
 
+import com.promcteam.codex.legacy.riseitem.DarkRiseItem;
 import com.promcteam.sapphire.Sapphire;
-import com.promcteam.risecore.item.DarkRiseItem;
 import org.bukkit.inventory.ItemStack;
 
 public class SapphireToolType extends ToolType {
