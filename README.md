@@ -1,5 +1,5 @@
-[![Build](https://github.com/promcteam/mirage/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
-[![Build](https://github.com/promcteam/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.studio/magemonkey/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://github.studio/magemonkey/promccore/packages/1203744)
 [![Build](https://github.com/promcteam/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://github.com/promcteam/promccore/packages/1203744)
 
 # Mirage
@@ -8,9 +8,9 @@
 
 You can download Mirage from our marketplace
 
-* https://promcteam.com/resources/
+* https://magemonkey.studio/resources/
 
-## PROMCTEAM:
+## Mage Monkey Studios:
 
 * Discord | https://discord.gg/6UzkTe6RvW
 
@@ -26,7 +26,7 @@ or snapshots through Sonatype.
 </repository>
 ...
 <dependency>
-    <groupId>com.promcteam</groupId>
+    <groupId>studio.magemonkey</groupId>
     <artifactId>mirage</artifactId>
     <version>1.0.0-R0.1-SNAPSHOT</version>
 </dependency>

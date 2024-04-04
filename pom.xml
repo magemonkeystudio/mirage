@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.promcteam</groupId>
-        <artifactId>promc-parent</artifactId>
-        <version>1.20.4-R1-SNAPSHOT</version>
+        <groupId>studio.magemonkey</groupId>
+        <artifactId>magemonkey-parent</artifactId>
+        <version>1.20.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>mirage</artifactId>
@@ -51,25 +51,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.promcteam</groupId>
+            <groupId>studio.magemonkey</groupId>
             <artifactId>codex</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.promcteam</groupId>
+            <groupId>studio.magemonkey</groupId>
             <artifactId>divinity</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.promcteam</groupId>
+            <groupId>studio.magemonkey</groupId>
             <artifactId>fabled</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.promcteam</groupId>
+            <groupId>studio.magemonkey</groupId>
             <artifactId>fusion</artifactId>
             <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.promcteam</groupId>
+            <groupId>studio.magemonkey</groupId>
             <artifactId>sapphire</artifactId>
             <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>

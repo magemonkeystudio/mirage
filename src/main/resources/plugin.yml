@@ -1,5 +1,5 @@
 name: ${project.name}
-main: com.promcteam.mirage.Mirage
+main: studio.magemonkey.mirage.Mirage
 version: ${project.version}
 authors: [ Travja, GoFlish, Sentropic ]
 api-version: 1.13
