@@ -25,7 +25,7 @@ disable_turtle_egg: false
 #This will disable bamboo and chorus plants
 disable_block_growth: true
 
-entries: []
+entries: [ ]
 #- materials:
 #  - IRON_ORE
 #  - GOLD_ORE
@@ -41,8 +41,8 @@ entries: []
 #  #What the block will regenerate into. Weights need not add up to 1
 #  requirements:
 #  - "enchantment:silk_touch:1"
-#  - "SKILLAPI_skill:skill1:5"
-#  - "SKILLAPI_class:class1:3"
+#  - "FABLED_skill:skill1:5"
+#  - "FABLED_class:class1:3"
 #  - "MCMMO_skill:acrobatics:7"
 #  - "RPGCRAFTING_profession:smelting:2"
 #  chance:
@@ -56,10 +56,10 @@ entries: []
 #    # "JOBS_exp:<job name>:<amount>"
 #    - "JOBS_exp:miner:5"
 #    - "JOBS_points:5"
-#    # "SKILLAPI_skill:<skill name>:<level>"
-#    - "SKILLAPI_skill:skill1:5"
-#    # "SKILLAPI_exp:<class group>:<level>"
-#    - "SKILLAPI_exp:class:5"
+#    # "FABLED_skill:<skill name>:<level>"
+#    - "FABLED_skill:skill1:5"
+#    # "FABLED_exp:<class group>:<level>"
+#    - "FABLED_exp:class:5"
 #  #If true, the mined/broken block/plant will be removed without drops,
 #  #so that you can add custom drops with commands
 #  cancel-drop: true

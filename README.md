@@ -1,19 +1,22 @@
-[![Build](https://github.com/promcteam/problockregen/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
-[![Build](https://github.com/promcteam/problockregen/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/promcteam/promccore/packages/1203744)
-[![Build](https://github.com/promcteam/problockregen/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://github.com/promcteam/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.studio/magemonkey/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://github.studio/magemonkey/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://github.com/promcteam/promccore/packages/1203744)
 
-# ProBlockRegen
+# Mirage
 
 ## Downloads
-You can download ProBlockRegen from our marketplace
-* https://promcteam.com/resources/
 
-## PROMCTEAM:
+You can download Mirage from our marketplace
+
+* https://magemonkey.studio/resources/
+
+## Mage Monkey Studios:
+
 * Discord | https://discord.gg/6UzkTe6RvW
 
-# Development 
+# Development
 
-If you wish to use ProBlockRegen as a dependency in your projects, ProBlockRegen is available through Maven Central
+If you wish to use Mirage as a dependency in your projects, Mirage is available through Maven Central
 or snapshots through Sonatype.
 
 ```xml
@@ -23,8 +26,14 @@ or snapshots through Sonatype.
 </repository>
 ...
 <dependency>
-    <groupId>com.promcteam</groupId>
-    <artifactId>problockregen</artifactId>
-    <version>1.1.5-R0.1-SNAPSHOT</version>
+    <groupId>studio.magemonkey</groupId>
+    <artifactId>mirage</artifactId>
+    <version>1.0.0-R0.1-SNAPSHOT</version>
 </dependency>
 ```
+
+### A huge thanks to our contributors
+
+<a href="https://github.com/promcteam/mirage/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=promcteam/mirage" />
+</a>

@@ -5,16 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.promcteam</groupId>
-        <artifactId>risecore-parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
-        <relativePath/>
+        <groupId>studio.magemonkey</groupId>
+        <artifactId>magemonkey-parent</artifactId>
+        <version>1.20.4-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.promcteam</groupId>
-    <artifactId>problockregen</artifactId>
-    <version>1.1.5-R0.1-SNAPSHOT</version>
-    <name>ProBlockRegen</name>
+    <artifactId>mirage</artifactId>
+    <version>1.0.0-R0.1-SNAPSHOT</version>
+    <name>Mirage</name>
 
     <repositories>
         <repository>
@@ -53,22 +51,43 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.palmergames.bukkit.towny</groupId>
-            <artifactId>towny</artifactId>
-            <version>0.99.1.0</version>
+            <groupId>studio.magemonkey</groupId>
+            <artifactId>codex</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>studio.magemonkey</groupId>
+            <artifactId>divinity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>studio.magemonkey</groupId>
+            <artifactId>fabled</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>studio.magemonkey</groupId>
+            <artifactId>fusion</artifactId>
+            <version>1.0.0-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>studio.magemonkey</groupId>
+            <artifactId>sapphire</artifactId>
+            <version>1.0.0-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.promcteam</groupId>
-            <artifactId>promcutilities</artifactId>
-            <version>1.0.1-R0.0-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.promcteam</groupId>
-            <artifactId>risecore</artifactId>
-            <version>${rc.version}</version>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.palmergames.bukkit.towny</groupId>
+            <artifactId>towny</artifactId>
+            <version>0.99.1.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -119,24 +138,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.promcteam</groupId>
-            <artifactId>prorpgitems</artifactId>
-            <version>1.0.4-R0.29-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.promcteam</groupId>
-            <artifactId>promccore</artifactId>
-            <version>1.0.6-R0.4-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.promcteam</groupId>
-            <artifactId>crafting</artifactId>
-            <version>1.2.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
@@ -177,12 +178,6 @@
             <groupId>com.griefdefender</groupId>
             <artifactId>api</artifactId>
             <version>2.1.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.promcteam</groupId>
-            <artifactId>proskillapi</artifactId>
-            <version>1.1.12-R1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

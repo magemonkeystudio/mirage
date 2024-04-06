@@ -1,25 +1,25 @@
 name: ${project.name}
-main: co.marcin.darkrise.riseresources.RiseResourcesPlugin
+main: studio.magemonkey.mirage.Mirage
 version: ${project.version}
-authors: [Travja, GoFlish, Sentropic]
+authors: [ Travja, GoFlish, Sentropic ]
 api-version: 1.13
 softdepend:
-- WorldGuard
-- ProMCUtilities
-- Oraxen
-- ItemsAdder
-- ProSkillApi
-- ProRPGItems
-- Jobs
-- Lands
-- Residence
-- GriefPrevention
-- ProtectionStones
-- GriefDefender
-- ProRPGCrafting
-- mcMMO
+  - WorldGuard
+  - Sapphire
+  - Oraxen
+  - ItemsAdder
+  - Fabled
+  - Divinity
+  - Jobs
+  - Lands
+  - Residence
+  - GriefPrevention
+  - ProtectionStones
+  - GriefDefender
+  - ProRPGCrafting
+  - mcMMO
 commands:
-  resources:
-    description: The base command for ProBlockRegen
+  mirage:
+    description: The base command for Mirage
     usage: /<command> reload
-    aliases: [blockregen, problockregen, pbr]
+    aliases: [ resources, blockregen, problockregen, pbr ]
