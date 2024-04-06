@@ -1,6 +1,6 @@
-[![Build](https://github.com/promcteam/mirage/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.studio/magemonkey/promccore/packages/1203744)
-[![Build](https://github.com/promcteam/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://github.studio/magemonkey/promccore/packages/1203744)
-[![Build](https://github.com/promcteam/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://github.com/promcteam/promccore/packages/1203744)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://s01.oss.sonatype.org/content/repositories/snapshots/studio/magemonkey/mirage/)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://s01.oss.sonatype.org/content/repositories/snapshots/studio/magemonkey/mirage/1.0.0-R0.1-SNAPSHOT/)
+[![Discord](https://dcbadge.vercel.app/api/server/6UzkTe6RvW?style=flat)](https://discord.gg/6UzkTe6RvW)
 
 # Mirage
 
@@ -12,7 +12,7 @@ You can download Mirage from our marketplace
 
 ## Mage Monkey Studios:
 
-* Discord | https://discord.gg/6UzkTe6RvW
+[![Discord](https://dcbadge.vercel.app/api/server/6UzkTe6RvW?style=flat)](https://discord.gg/6UzkTe6RvW)
 
 # Development
 
