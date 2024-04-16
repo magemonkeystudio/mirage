@@ -34,7 +34,6 @@ public class InteractListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-
         boolean matchFound = this.plugin.getDisabledWorlds().contains(event.getBlock().getWorld().getName());
         if (this.plugin.areWorldsBlacklisted() == matchFound) {
             return;

@@ -25,7 +25,7 @@ disable_turtle_egg: false
 #This will disable bamboo and chorus plants
 disable_block_growth: true
 
-entries: [ ]
+entries: []
 #- materials:
 #  - IRON_ORE
 #  - GOLD_ORE

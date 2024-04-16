@@ -8,20 +8,19 @@ import org.bukkit.event.block.BlockSpreadEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.bukkit.Material.*;
 
 public class CropListener implements Listener {
-
-    private final ArrayList<Material> crops  = //new ArrayList<>(Arrays.asList(WHEAT, COCOA, POTATO, CARROT));
+    private final List<Material> crops  = //new ArrayList<>(Arrays.asList(WHEAT, COCOA, POTATO, CARROT));
             new ArrayList<>(Arrays.asList(WHEAT, COCOA, POTATOES, BEETROOTS, CARROTS, SWEET_BERRY_BUSH));
-    private final ArrayList<Material> blocks =
+    private final List<Material> blocks =
             new ArrayList<>(Arrays.asList(/*BAMBOO, */SUGAR_CANE, CACTUS, MELON, PUMPKIN));
 
     //This applies to wheat, melons, pumpkins, sugarcane, cactus, and Turtle Eggs
     @EventHandler
     public void block(BlockGrowEvent event) {
-
         Material block = event.getNewState().getType();
 
         if (block == TURTLE_EGG && Data.restrictTurtleEgg) {
