@@ -33,7 +33,7 @@ public class FabledClassRequirement extends Requirement {
 
     @Override
     public boolean meets(@NotNull Player player) {
-        for (PlayerClass playerClass : Fabled.getPlayerData(player).getClasses()) {
+        for (PlayerClass playerClass : Fabled.getData(player).getClasses()) {
             if (playerClass.getData().getName().equalsIgnoreCase(this.clazz) && playerClass.getLevel() >= this.level) {
                 return true;
             }

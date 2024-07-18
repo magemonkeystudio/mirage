@@ -34,7 +34,7 @@ public class FabledExpReward extends AmountReward {
 
     @Override
     public void apply(@NotNull Player player) {
-        PlayerData  playerData = Fabled.getPlayerData(player);
+        PlayerData  playerData = Fabled.getData(player);
         PlayerClass clazz      = playerData.getClass(this.group);
         if (this.amount >= 0) {
             clazz.giveExp(this.amount, ExpSource.BLOCK_BREAK, true);
@@ -45,7 +45,7 @@ public class FabledExpReward extends AmountReward {
 
     @Override
     public boolean canAfford(@NotNull Player player) {
-        PlayerData  playerData = Fabled.getPlayerData(player);
+        PlayerData  playerData = Fabled.getData(player);
         PlayerClass clazz      = playerData.getClass(this.group);
         if (clazz == null) return false;
         return clazz.getTotalExp() >= -this.amount;
