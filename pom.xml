@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>mirage</artifactId>
-    <version>1.0.0-R0.2-SNAPSHOT</version>
+    <version>1.0.0-R1</version>
     <name>Mirage</name>
 
     <repositories>
