@@ -1,6 +1,7 @@
 package studio.magemonkey.mirage;
 
-import studio.magemonkey.mirage.blocks.BlockType;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -10,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.scheduler.BukkitTask;
+import studio.magemonkey.mirage.blocks.BlockType;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,43 +21,28 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 public class Data {
+    @Getter
     private static final ScheduledExecutorService scheduler             = Executors.newSingleThreadScheduledExecutor();
-    private static final Long                     watchdogInterval      = Long.valueOf(900L);
-    private static final Long                     watchdogIntervalTicks =
-            Long.valueOf(watchdogInterval.longValue() * 20L);
+    private static final Long                     watchdogInterval      = 900L;
+    private static final Long                     watchdogIntervalTicks = watchdogInterval * 20L;
     public static        boolean                  restrictCropGrowth    = true, restrictMelonGrowth = true,
             restrictTurtleEgg                                           = false, restrictBlockGrowth = true;
     private final Map<BlockType, DataEntry>     entries             = new HashMap<>();
+    @Getter
     private final Collection<RegenerationEntry> regenerationEntries = new HashSet<>();
+    @Getter
     private final Map<Location, BukkitTask>     tasks               = new HashMap<>();
+    @Setter
     private       File                          storageFile;
+    @Getter
     private       BukkitTask                    watchdog            = null;
-
-    public static ScheduledExecutorService getScheduler() {
-        return scheduler;
-    }
-
-    public Collection<RegenerationEntry> getRegenerationEntries() {
-        return this.regenerationEntries;
-    }
-
-    public void setStorageFile(File storageFile) {
-        this.storageFile = storageFile;
-    }
-
-    public Map<Location, BukkitTask> getTasks() {
-        return this.tasks;
-    }
-
-    public BukkitTask getWatchdog() {
-        return this.watchdog;
-    }
 
     public void load(ConfigurationSection section) {
         this.entries.clear();
         section.getMapList("entries").stream()
                 .map(map -> {
                     try {
+                        //noinspection unchecked
                         return new DataEntry((Map<String, Object>) map);
                     } catch (Exception e) {
                         Mirage.getInstance().getLogger().info("Invalid entry: " + e.getMessage());
@@ -129,7 +116,7 @@ public class Data {
         RegenerationEntry e = new RegenerationEntry(block.getLocation(), entry);
         this.regenerationEntries.add(e);
         Mirage.getInstance()
-                .debug("Will be regenerated at " + new Date(e.getRegenTime().longValue()));
+                .debug("Will be regenerated at " + new Date(e.getRegenTime()));
 
         if (runTask) {
             startRegenerationTask(e);
@@ -176,10 +163,10 @@ public class Data {
 
         Mirage.getInstance()
                 .debug(entry.getLocation().toString() + " is gonna be regenerated in " + (
-                        (entry.getRegenTime().longValue() - System.currentTimeMillis()) / 1000L) + " seconds");
+                        (entry.getRegenTime() - System.currentTimeMillis()) / 1000L) + " seconds");
         this.tasks.put(entry.getLocation(),
                 Bukkit.getScheduler().runTaskLater(Mirage.getInstance(), entry::regenerate, (entry
-                        .getRegenTime().longValue() - System.currentTimeMillis()) / 1000L * 20L));
+                        .getRegenTime() - System.currentTimeMillis()) / 1000L * 20L));
     }
 
     public void startRegenerationWatchdog() {
@@ -208,7 +195,7 @@ public class Data {
     public void checkChunkRegeneration(Chunk chunk) {
         this.regenerationEntries.stream()
                 .filter(e -> e.getLocation().getChunk().equals(chunk))
-                .filter(e -> (System.currentTimeMillis() > e.getRegenTime().longValue()))
+                .filter(e -> (System.currentTimeMillis() > e.getRegenTime()))
                 .forEach(this::startRegenerationTask);
     }
 }
