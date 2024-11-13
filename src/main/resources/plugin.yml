@@ -16,7 +16,7 @@ softdepend:
   - GriefPrevention
   - ProtectionStones
   - GriefDefender
-  - ProRPGCrafting
+  - Fusion
   - mcMMO
 commands:
   mirage:

@@ -6,13 +6,13 @@ import studio.magemonkey.fusion.cfg.Cfg;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class RPGCraftingProfessionRequirement extends Requirement {
-    public static final String NAME = "RPGCRAFTING_profession";
+public class FusionProfessionRequirement extends Requirement {
+    public static final String NAME = "FUSION_profession";
 
     private final CraftingTable profession;
     private final int           level;
 
-    public RPGCraftingProfessionRequirement(String fullString) {
+    public FusionProfessionRequirement(String fullString) {
         super(fullString);
 
         String[] split = fullString.split(":");

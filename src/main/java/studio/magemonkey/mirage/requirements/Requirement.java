@@ -30,11 +30,11 @@ public abstract class Requirement {
                 throw new IllegalStateException("mcMMO is not enabled");
             }
             return new McMMOSkillRequirement(string);
-        } else if (string.startsWith(RPGCraftingProfessionRequirement.NAME)) {
-            if (!Bukkit.getPluginManager().isPluginEnabled("ProRPGCrafting")) {
-                throw new IllegalStateException("ProRPGCrafting is not enabled");
+        } else if (string.startsWith(FusionProfessionRequirement.NAME) || string.startsWith("RPGCRAFTING_profession")) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("Fusion")) {
+                throw new IllegalStateException("Fusion is not enabled");
             }
-            return new RPGCraftingProfessionRequirement(string);
+            return new FusionProfessionRequirement(string);
         } else {
             throw new IllegalArgumentException("Unknown name");
         }
