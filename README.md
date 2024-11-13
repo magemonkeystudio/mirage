@@ -1,5 +1,5 @@
 [![Build](https://github.com/promcteam/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://s01.oss.sonatype.org/content/repositories/snapshots/studio/magemonkey/mirage/)
-[![Build](https://github.com/promcteam/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://s01.oss.sonatype.org/content/repositories/snapshots/studio/magemonkey/mirage/1.0.1-R1/)
+[![Build](https://github.com/promcteam/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://s01.oss.sonatype.org/content/repositories/snapshots/studio/magemonkey/mirage/1.0.2-R0.1-SNAPSHOT/)
 [![Discord](https://dcbadge.vercel.app/api/server/6UzkTe6RvW?style=flat)](https://discord.gg/6UzkTe6RvW)
 
 # Mirage
@@ -20,10 +20,15 @@ If you wish to use Mirage as a dependency in your projects, Mirage is available 
 or snapshots through Sonatype.
 
 ```xml
+<repository>
+    <id>sonatype</id>
+    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+</repository>
+...
 <dependency>
     <groupId>studio.magemonkey</groupId>
     <artifactId>mirage</artifactId>
-    <version>1.0.1-R1</version>
+    <version>1.0.2-R0.1-SNAPSHOT</version>
 </dependency>
 ```
 
