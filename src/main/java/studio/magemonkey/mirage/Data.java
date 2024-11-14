@@ -53,7 +53,7 @@ public class Data {
                 .forEach(dataEntry -> {
                     for (BlockType blockType : dataEntry.getMaterials()) {
                         DataEntry existing = this.entries.put(blockType, dataEntry);
-                        Mirage.getInstance().debug("Registered entry for block type " + blockType + "'");
+                        Mirage.getInstance().debug("Registered entry for block type '" + blockType + "'");
                         if (existing != null) {
                             Mirage.getInstance()
                                     .debug("Overriding duplicate block type '" + blockType + "'");
