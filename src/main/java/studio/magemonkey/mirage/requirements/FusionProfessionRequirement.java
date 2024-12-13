@@ -1,10 +1,10 @@
 package studio.magemonkey.mirage.requirements;
 
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import studio.magemonkey.fusion.CraftingTable;
 import studio.magemonkey.fusion.LevelFunction;
 import studio.magemonkey.fusion.cfg.Cfg;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class FusionProfessionRequirement extends Requirement {
     public static final String NAME = "FUSION_profession";

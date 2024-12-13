@@ -1,10 +1,10 @@
 package studio.magemonkey.mirage.rewards;
 
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import studio.magemonkey.fabled.Fabled;
 import studio.magemonkey.fabled.api.skills.Skill;
 import studio.magemonkey.fabled.api.skills.SkillShot;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class FabledSkillReward extends Reward {
     public static final String NAME = "FABLED_skill";

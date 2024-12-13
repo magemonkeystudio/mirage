@@ -1,8 +1,8 @@
 package studio.magemonkey.mirage.hooks;
 
-import studio.magemonkey.mirage.Mirage;
 import me.angeschossen.lands.api.land.Area;
 import org.bukkit.Location;
+import studio.magemonkey.mirage.Mirage;
 
 public class LandsHook {
 

@@ -5,9 +5,9 @@ import com.gmail.nossr50.datatypes.experience.XPGainSource;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.player.UserManager;
-import studio.magemonkey.mirage.Mirage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import studio.magemonkey.mirage.Mirage;
 
 public class McMMOExperienceReward extends AmountReward {
     public static final String NAME = "MCMMO_exp";

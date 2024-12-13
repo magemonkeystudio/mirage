@@ -1,11 +1,11 @@
 package studio.magemonkey.mirage.rewards;
 
-import studio.magemonkey.mirage.Mirage;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.NotNull;
+import studio.magemonkey.mirage.Mirage;
 
 public class VaultMoneyReward extends AmountReward {
     private static Economy economy;

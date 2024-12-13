@@ -1,14 +1,14 @@
 package studio.magemonkey.mirage.blocks;
 
-import studio.magemonkey.mirage.Mirage;
-import studio.magemonkey.mirage.tools.ItemsAdderToolType;
-import studio.magemonkey.mirage.tools.OraxenToolType;
 import dev.lone.itemsadder.api.CustomBlock;
 import io.th0rgal.oraxen.api.OraxenBlocks;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.Nullable;
+import studio.magemonkey.mirage.Mirage;
+import studio.magemonkey.mirage.tools.ItemsAdderToolType;
+import studio.magemonkey.mirage.tools.OraxenToolType;
 
 import java.util.HashSet;
 import java.util.Objects;

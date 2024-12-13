@@ -1,9 +1,9 @@
 package studio.magemonkey.mirage.requirements;
 
-import studio.magemonkey.fabled.Fabled;
-import studio.magemonkey.fabled.api.skills.Skill;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import studio.magemonkey.fabled.Fabled;
+import studio.magemonkey.fabled.api.skills.Skill;
 
 public class FabledSkillRequirement extends Requirement {
     public static final String NAME = "FABLED_skill";

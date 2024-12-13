@@ -1,10 +1,5 @@
 package studio.magemonkey.mirage;
 
-import studio.magemonkey.mirage.blocks.BlockType;
-import studio.magemonkey.mirage.requirements.Requirement;
-import studio.magemonkey.mirage.rewards.AmountReward;
-import studio.magemonkey.mirage.rewards.Reward;
-import studio.magemonkey.mirage.tools.ToolType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -13,6 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import studio.magemonkey.mirage.blocks.BlockType;
+import studio.magemonkey.mirage.requirements.Requirement;
+import studio.magemonkey.mirage.rewards.AmountReward;
+import studio.magemonkey.mirage.rewards.Reward;
+import studio.magemonkey.mirage.tools.ToolType;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,7 +1,5 @@
 package studio.magemonkey.mirage.blocks;
 
-import studio.magemonkey.mirage.Mirage;
-import studio.magemonkey.mirage.tools.ItemsAdderToolType;
 import dev.lone.itemsadder.api.CustomBlock;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -10,6 +8,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import studio.magemonkey.mirage.Mirage;
+import studio.magemonkey.mirage.tools.ItemsAdderToolType;
 
 public class ItemsAdderBlockType extends BlockType {
 

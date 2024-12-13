@@ -1,7 +1,7 @@
 package studio.magemonkey.mirage.tools;
 
-import studio.magemonkey.divinity.stats.items.ItemStats;
 import org.bukkit.inventory.ItemStack;
+import studio.magemonkey.divinity.stats.items.ItemStats;
 
 public class DivinityToolType extends ToolType {
     public static final String PREFIX = "DIVINITY_";

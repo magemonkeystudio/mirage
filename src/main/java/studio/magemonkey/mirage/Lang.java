@@ -1,9 +1,9 @@
 package studio.magemonkey.mirage;
 
-import studio.magemonkey.mirage.rewards.*;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import studio.magemonkey.mirage.rewards.*;
 
 import java.io.File;
 import java.util.HashMap;

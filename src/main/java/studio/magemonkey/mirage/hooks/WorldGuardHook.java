@@ -1,12 +1,12 @@
 package studio.magemonkey.mirage.hooks;
 
-import studio.magemonkey.mirage.Mirage;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.internal.platform.WorldGuardPlatform;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Location;
+import studio.magemonkey.mirage.Mirage;
 
 public class WorldGuardHook {
     public static boolean isRegionDisabledAt(Location location) {

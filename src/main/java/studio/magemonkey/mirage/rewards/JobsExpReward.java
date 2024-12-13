@@ -3,9 +3,9 @@ package studio.magemonkey.mirage.rewards;
 import com.gamingmesh.jobs.Jobs;
 import com.gamingmesh.jobs.container.Job;
 import com.gamingmesh.jobs.container.JobProgression;
-import studio.magemonkey.mirage.Mirage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import studio.magemonkey.mirage.Mirage;
 
 public class JobsExpReward extends AmountReward {
     public static final String NAME = "JOBS_exp";

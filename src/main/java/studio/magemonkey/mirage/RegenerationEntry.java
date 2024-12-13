@@ -1,10 +1,10 @@
 package studio.magemonkey.mirage;
 
-import studio.magemonkey.mirage.blocks.BlockType;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import studio.magemonkey.mirage.blocks.BlockType;
 
 import java.util.Date;
 import java.util.HashMap;

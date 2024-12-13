@@ -1,11 +1,11 @@
 package studio.magemonkey.mirage.rewards;
 
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import studio.magemonkey.fabled.Fabled;
 import studio.magemonkey.fabled.api.enums.ExpSource;
 import studio.magemonkey.fabled.api.player.PlayerClass;
 import studio.magemonkey.fabled.api.player.PlayerData;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class FabledExpReward extends AmountReward {
     public static final String NAME = "FABLED_exp";

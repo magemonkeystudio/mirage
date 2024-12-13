@@ -1,10 +1,10 @@
 package studio.magemonkey.mirage.blocks;
 
-import studio.magemonkey.mirage.Mirage;
-import studio.magemonkey.mirage.tools.OraxenToolType;
 import io.th0rgal.oraxen.api.OraxenBlocks;
 import io.th0rgal.oraxen.mechanics.Mechanic;
 import org.bukkit.block.Block;
+import studio.magemonkey.mirage.Mirage;
+import studio.magemonkey.mirage.tools.OraxenToolType;
 
 public class OraxenBlockType extends BlockType {
 

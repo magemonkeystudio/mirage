@@ -1,10 +1,10 @@
 package studio.magemonkey.mirage.requirements;
 
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import studio.magemonkey.fabled.Fabled;
 import studio.magemonkey.fabled.api.classes.FabledClass;
 import studio.magemonkey.fabled.api.player.PlayerClass;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class FabledClassRequirement extends Requirement {
     public static final String NAME = "FABLED_class";

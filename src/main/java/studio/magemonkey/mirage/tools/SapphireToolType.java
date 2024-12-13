@@ -1,8 +1,8 @@
 package studio.magemonkey.mirage.tools;
 
+import org.bukkit.inventory.ItemStack;
 import studio.magemonkey.codex.legacy.riseitem.DarkRiseItem;
 import studio.magemonkey.sapphire.Sapphire;
-import org.bukkit.inventory.ItemStack;
 
 public class SapphireToolType extends ToolType {
     public static final String PREFIX = "SAPPHIRE_";
