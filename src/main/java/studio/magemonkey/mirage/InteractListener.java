@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -85,6 +86,17 @@ public class InteractListener implements Listener {
         if (meta instanceof Damageable) {
             Damageable damageable = (Damageable) meta;
             int        maxDamage  = item.getType().getMaxDurability();
+
+            // Get the item's Unbreaking level and determine if it should be applied
+            int unbreakingLevel = item.getEnchantmentLevel(Enchantment.UNBREAKING);
+            if (unbreakingLevel > 0) {
+                double chance = 100D / (unbreakingLevel + 1);
+                if (Math.random() * 100 < chance) {
+                    plugin.debug("Unbreaking prevented damage");
+                    return;
+                }
+            }
+
             if (maxDamage > 0) {
                 boolean indestructible = item.getType().equals(Material.ELYTRA);
                 if (indestructible) {
