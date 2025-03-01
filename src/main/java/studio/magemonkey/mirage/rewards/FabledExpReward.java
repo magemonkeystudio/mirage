@@ -39,7 +39,7 @@ public class FabledExpReward extends AmountReward {
         if (this.amount >= 0) {
             clazz.giveExp(this.amount, ExpSource.BLOCK_BREAK, true);
         } else {
-            clazz.loseExp(-this.amount, false, true);
+            clazz.loseExp(-this.amount, false, true, true);
         }
     }
 
