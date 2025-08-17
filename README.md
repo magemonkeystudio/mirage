@@ -1,6 +1,6 @@
 [![Build](https://github.com/magemonkeystudio/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://central.sonatype.com/repository/maven-snapshots/studio/magemonkey/mirage/)
 [![Build](https://github.com/magemonkeystudio/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://central.sonatype.com/repository/maven-snapshots/studio/magemonkey/mirage/1.0.2-R0.5-SNAPSHOT/)
-[![Discord](https://dcbadge.vercel.app/api/server/6UzkTe6RvW?style=flat)](https://discord.gg/6UzkTe6RvW)
+[![Discord](https://dcbadge.limes.pink/api/server/6UzkTe6RvW?style=flat)](https://discord.gg/6UzkTe6RvW)
 
 # Mirage
 
@@ -12,7 +12,7 @@ You can download Mirage from our marketplace
 
 ## MageMonkeyStudio:
 
-[![Discord](https://dcbadge.vercel.app/api/server/6UzkTe6RvW?style=flat)](https://discord.gg/6UzkTe6RvW)
+[![Discord](https://dcbadge.limes.pink/api/server/6UzkTe6RvW?style=flat)](https://discord.gg/6UzkTe6RvW)
 
 # Development
 
