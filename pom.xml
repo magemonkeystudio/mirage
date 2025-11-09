@@ -77,13 +77,13 @@
         <dependency>
             <groupId>studio.magemonkey</groupId>
             <artifactId>fusion</artifactId>
-            <version>1.0.0-R0.1-SNAPSHOT</version>
+            <version>1.0.1-R0.20-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>studio.magemonkey</groupId>
             <artifactId>sapphire</artifactId>
-            <version>1.0.0-R0.1-SNAPSHOT</version>
+            <version>1.0.1-R0.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
