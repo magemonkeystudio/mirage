@@ -16,8 +16,8 @@ You can download Mirage from our marketplace
 
 # Development
 
-If you wish to use Mirage as a dependency in your projects, Mirage is available through Maven Central
-or snapshots through Sonatype.
+If you wish to use Mirage as a dependency in your projects, Mirage is available through our repository.
+
 
 ```xml
 <repository>
