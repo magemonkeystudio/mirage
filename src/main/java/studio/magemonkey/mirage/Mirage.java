@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main class for the Mirage plugin.
+ */
 public class Mirage extends JavaPlugin {
     @Getter
     private static Mirage instance;

@@ -58,6 +58,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>matteodev</id>
+            <url>https://maven.devs.beer/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -144,9 +148,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.github.LoneDev6</groupId>
+            <groupId>dev.lone</groupId>
             <artifactId>api-itemsadder</artifactId>
-            <version>3.5.0b</version>
+            <version>4.0.10</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
