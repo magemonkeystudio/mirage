@@ -1,5 +1,5 @@
-[![Build](https://github.com/magemonkeystudio/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://repo.travja.dev/releases/studio/magemonkey/mirage/1.0.2-R0.6-SNAPSHOT)
-[![Build](https://github.com/magemonkeystudio/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://repo.travja.dev/snapshots/studio/magemonkey/mirage/1.0.2-R0.6-SNAPSHOT)
+[![Build](https://github.com/magemonkeystudio/mirage/actions/workflows/release.yml/badge.svg?branch=main)](https://repo.travja.dev/releases/studio/magemonkey/mirage/1.0.2-R0.7-SNAPSHOT)
+[![Build](https://github.com/magemonkeystudio/mirage/actions/workflows/devbuild.yml/badge.svg?branch=dev)](https://repo.travja.dev/snapshots/studio/magemonkey/mirage/1.0.2-R0.7-SNAPSHOT)
 [![Discord](https://dcbadge.limes.pink/api/server/mQrkW4htUA?style=flat)](https://discord.gg/mQrkW4htUA)
 
 # Mirage
@@ -28,7 +28,7 @@ If you wish to use Mirage as a dependency in your projects, Mirage is available 
 <dependency>
     <groupId>studio.magemonkey</groupId>
     <artifactId>mirage</artifactId>
-    <version>1.0.2-R0.6-SNAPSHOT</version>
+    <version>1.0.2-R0.7-SNAPSHOT</version>
 </dependency>
 ```
 
